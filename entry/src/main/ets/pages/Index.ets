@@ -1,5 +1,6 @@
 import productAttributes from '../common/PublicClass'
 
+// import {productAttributes as qwe} from  "../common/PublicClass"
 const commodity = new productAttributes("老干妈", 1, 7)
 
 
