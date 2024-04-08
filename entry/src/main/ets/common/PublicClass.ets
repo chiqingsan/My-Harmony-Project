@@ -1,6 +1,5 @@
-
 // 商品属性类
-class productAttributes {
+export class productAttributes {
   name: string
   serialNumber: number
   price: number
@@ -15,3 +14,4 @@ class productAttributes {
 }
 
 export default productAttributes
+
