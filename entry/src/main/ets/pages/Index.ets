@@ -40,13 +40,17 @@ interface restraint {
   toString: () => void
 }
 
+function myGenerics<T extends restraint>(params: T) {
+  return params.toString()
+}
+
+// 简单类型可以依靠TS的类型推断完成判断
+console.log(`my:${myGenerics([1231, , 14, 14, 11 < 12313 + 12313 / 1231 || 1231 > 123 + 1])}`);
+
+
 interface rest1 {
   name: string
   length: number
-}
-
-function myGenerics<T extends restraint>(params: T) {
-  return params.toString()
 }
 
 function myGenericsA<T extends rest1>(params: T) {
@@ -56,8 +60,21 @@ function myGenericsA<T extends rest1>(params: T) {
 // 复杂类型需要显示声明泛型
 console.log(myGenericsA<rest1>({ name: "123234", length: 6 }));
 
-// 简单类型可以依靠TS的类型推断完成判断
-console.log(`my:${myGenerics<restraint>([1231, , 123, 1, 14, 14, 14, 11 < 12313 + 12313 / 1231 || 1231 > 123 + 1])}`);
+
+// 泛型类
+
+class myGenerics_A <T, N> {
+  name: T
+  age: N
+
+  constructor(name: T, age: N) {
+    this.name = name
+    this.age = age
+  }
+}
+
+// 函数写法
+
 
 @Entry
 @Component
