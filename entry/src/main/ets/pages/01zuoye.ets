@@ -202,7 +202,7 @@ struct Index {
         })
 
       Row({ space: 15 }) {
-        Image($r("app.media.user_01"))
+        Image($r("app.media.user_0111"))
           .width(20)
 
         Image($r("app.media.more_01"))

@@ -180,7 +180,7 @@ struct Index {
                       this.scroller.scrollTo({ yOffset: 0, xOffset: 0 })
                     })
                   Row() {
-                    Image($r('app.media.user_01'))
+                    Image($r("app.media.user_0111"))
                       .width(20)
                       .margin({ right: 15 })
                       .onClick(() => {

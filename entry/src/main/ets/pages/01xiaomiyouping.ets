@@ -435,7 +435,7 @@ struct Index {
   myPage() {
     Column() {
       Row() {
-        Image($r("app.media.user_01"))
+        Image($r("app.media.user_0111"))
           .width(80)
           .margin({ left: 20 })
         Column({ space: 10 }) {

@@ -15,6 +15,9 @@ export class productAttributes {
 
 export default productAttributes
 
+export class qwe {
+  name:string = ""
+}
 
 let a = "1"
 let b = "2"
