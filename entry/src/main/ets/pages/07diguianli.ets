@@ -81,7 +81,9 @@ const treeData: Department[] = [
 function getEmployeeList(departmentList: Department[]): Employee[] {
   let employeeList: Employee[] = []
 
+
   // 补全剩余代码/
+
   const listOfEmployees = (departmentList: Department[]) => {
     departmentList.forEach((item) => {
       if (item.employees) {
@@ -154,9 +156,6 @@ struct FormatDate {
 
       }
       .padding(20)
-      .onClick(() => {
-        console.log(JSON.stringify(treeData))
-      })
     }
     .columnStyle()
   }
