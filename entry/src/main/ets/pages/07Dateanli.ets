@@ -4,8 +4,6 @@ struct Date01 {
   @State time: Date = new Date()
   private weekArr: string[] = ["日", "一", "二", "三", "四", "五", "六"]
 
-  // @State h: number = Date.prototype.getHours()
-
   build() {
     Column() {
       Column() {
@@ -14,6 +12,7 @@ struct Date01 {
           .fontColor(Color.White)
           .fontSize(32)
           .padding(22)
+
         Text(`${this.time.getFullYear()}年 ${this.time.getMonth() + 1} 月 ${this.time.getDate()} 日 周${this.weekArr[this.time.getDay()]}`)// Text('2024年 3 月 24 日 周日')
           .fontColor(Color.White)
           .fontSize(20)

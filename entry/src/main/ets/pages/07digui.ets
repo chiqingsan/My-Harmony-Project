@@ -9,13 +9,29 @@ function add(params: number) {
   return sum
 }
 
-console.log(`${add(100)}`);
+// console.log(`${add(100)}`);
 
-function multiplicationTable(num: number) {
-  let zero = 1
+function jiujiu(num: number) {
+  let temp = ""
 
+  const row = (beginning: number) => {
 
+    if (beginning <= num) {
+      temp += `${beginning}x${num}=${(beginning) * num}  `
+      row(beginning + 1)
+    }
+  }
+  row(1)
+
+  console.log(temp);
+
+  if (num) {
+    jiujiu(num - 1)
+  }
 }
+
+
+jiujiu(9)
 
 
 @Entry
