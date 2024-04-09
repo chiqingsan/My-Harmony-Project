@@ -11,6 +11,12 @@ function add(params: number) {
 
 console.log(`${add(100)}`);
 
+function multiplicationTable(num: number) {
+  let zero = 1
+
+
+}
+
 
 @Entry
 @Component
