@@ -24,6 +24,8 @@ struct Index {
   @State TabNavIndex: number = 0
   // 记录选车页面的导航条下标, 默认为0
   @State navigationBarIndex: number = 0
+  // 记录选车页面的顶部导航条信息
+  @State chooseACarIndex: number = 0
   // 记录首页滚动条滚动的距离
   @State rollDistance: number = 0
   // 设置回到顶部图片的显示状态
@@ -38,7 +40,7 @@ struct Index {
   build() {
     Column() {
 
-      Tabs({ index: 2 }) {
+      Tabs({ index: 0 }) {
 
         ForEach(
           this.bottomTabsInfo,
@@ -47,10 +49,13 @@ struct Index {
               if (index === 0) {
                 this.home()
               } else if (index === 1) {
+                Image($r("app.media.page_friends"))
               } else if (index === 2) {
                 this.chooseACar()
               } else if (index === 3) {
+                Image($r("app.media.page_second_hand"))
               } else if (index === 4) {
+                Image($r("app.media.page_service"))
               }
             }
             .tabBar(this.bottomTabColumn(item, index))
@@ -204,7 +209,6 @@ struct Index {
       }
       .onScroll(() => {
         this.rollDistance = this.homePageScrollbar.currentOffset().yOffset
-        console.log(this.rollDistance.toString())
       })
 
     }
@@ -233,82 +237,150 @@ struct Index {
       Image($r("app.media.home_top"))
         .width("100%")
 
+      List({ scroller: this.chooseACarController }) {
 
-      Stack() {
-        List({ scroller: this.chooseACarController }) {
-
-          ListItem() {
-            Column() {
-              Row() {
-                ForEach(
-                  ["新车", "新能源", "精准找车"],
-                  (item: string) => {
-                    Text(item)
-                  }
-                )
-              }
-              .height(40)
-
-              // 新车车系
-              // Grid() {
-              //   ForEach(
-              //     dcd.newCarList,
-              //     (item: dcd.CarInfo) => {
-              //       Column() {
-              //         Image(item.icon)
-              //         Text(item.name)
-              //       }
-              //     }
-              //   )
-              // }
-
+        ListItem() {
+          Column() {
+            Row({ space: 10 }) {
+              ForEach(
+                ["新车", "新能源", "精准找车"],
+                (item: string, index) => {
+                  Text(item)
+                    .fontSize(this.chooseACarIndex === index ? 18 : 16)
+                    .fontWeight(this.chooseACarIndex === index ? 700 : 400)
+                    .onClick(() => {
+                      this.chooseACarIndex = index
+                    })
+                    .border({
+                      width: { bottom: this.chooseACarIndex === index ? 2 : 0 },
+                      color: "#000"
+                    })
+                }
+              )
             }
-          }
+            .padding({ left: 10 })
+            .width("100%")
+            .height(40)
 
-          ForEach(
-            dcd.groupCarInfoList,
-            (item: dcd.GroupCarInfo) => {
-              ListItemGroup({
-                space: 3,
-                header: this.listHeader(item.initial)
-              }) {
-                ForEach(
-                  item.carList,
-                  (brand: dcd.CarInfo) => {
-                    ListItem() {
-                      Row({ space: 10 }) {
-                        Image(brand.icon)
-                          .width(50)
-                        Text(brand.name)
-                          .layoutWeight(1)
-                      }
-                      .margin({ left: 10 })
+            // 新车车系
+            Grid() {
+              ForEach(
+                dcd.newCarList,
+                (item: dcd.CarInfo) => {
+                  GridItem() {
+                    Column({ space: 3 }) {
+                      Image(item.icon)
+                        .width("60%")
+                      Text(item.name)
+                        .fontSize(14)
                     }
                   }
+                  .width("20%")
+                }
+              )
+            }
 
-                )
+            // 价格标签
+
+            Grid() {
+              ForEach(
+                dcd.filterKeys,
+                (item: string) => {
+                  GridItem() {
+                    Text(item)
+                      .fontSize(14)
+                  }
+                  .backgroundColor("#FBFBFF")
+                  .borderRadius(5)
+                }
+              )
+              GridItem() {
+
               }
             }
-          )
+            .height(80)
+            .rowsTemplate("1fr 1fr")
+            .columnsTemplate("1fr 1fr 1fr 1fr ")
+            .rowsGap(8)
+            .columnsGap(10)
+            .margin(8)
+
+            // 热门车系
+            Column() {
+              Row() {
+                Text("热门车系")
+                  .width("100%")
+                  .fontWeight(900)
+                  .margin(3)
+              }
+              .padding({ left: 15 })
+
+              Grid() {
+                ForEach(
+                  dcd.hotCarList,
+                  (item: dcd.CarInfo) => {
+                    GridItem() {
+                      Column() {
+                        Image(item.icon)
+                          .width("80%")
+                        Text(item.name)
+                      }
+                    }
+                    .width("33%")
+                  }
+                )
+              }
+              .height(160)
+              .rowsTemplate("1fr 1fr")
+            }
+          }
         }
-        .scrollBar(BarState.Off)
-        .sticky(StickyStyle.Header)
-        .edgeEffect(EdgeEffect.Fade)
-        .onScrollIndex((start) => {
-          this.navigationBarIndex = start + 1
-        })
 
-        AlphabetIndexer({ arrayValue: dcd.navBarKeys, selected: this.navigationBarIndex })
-          .onSelect((index) => {
-            this.chooseACarController.scrollToIndex(index - 1)
-          })
-          .usingPopup(true)
-          .offset({
-            y: "10%"
-          })
+        ForEach(
+          dcd.groupCarInfoList,
+          (item: dcd.GroupCarInfo) => {
+            ListItemGroup({
+              space: 3,
+              header: this.listHeader(item.initial)
+            }) {
+              ForEach(
+                item.carList,
+                (brand: dcd.CarInfo) => {
+                  ListItem() {
+                    Row({ space: 10 }) {
+                      Image(brand.icon)
+                        .width(50)
+                      Text(brand.name)
+                        .layoutWeight(1)
+                    }
+                    .margin({ left: 10 })
+                  }
+                }
 
+              )
+            }
+          }
+        )
       }
-      .alignContent(Alignment.TopEnd)
+      .scrollBar(BarState.Off)
+      .sticky(StickyStyle.Header)
+      .edgeEffect(EdgeEffect.Fade)
+      .onScrollIndex((start) => {
+        this.navigationBarIndex = start
+      })
+
+      AlphabetIndexer({ arrayValue: dcd.navBarKeys, selected: this.navigationBarIndex })
+        .onSelect((index) => {
+          this.chooseACarController.scrollToIndex(index)
+        })
+        .usingPopup(true)
+        .position({
+          y: "25%",
+          x: "100%"
+        })
+        .translate({
+          x: "-100%"
+        })
     }
     .widthAndHeight()
   }
@@ -334,6 +406,7 @@ struct Index {
               Text(item)
                 .height(40)
             }
+            .borderRadius(5)
             .backgroundColor("#ffd9d9e1")
           }
         )
