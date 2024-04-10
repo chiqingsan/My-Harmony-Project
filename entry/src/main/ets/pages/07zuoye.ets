@@ -2,6 +2,7 @@
 @Component
 struct OpenAD {
   @State second: number = 5
+  @State op: number = 1
 
   build() {
     Stack() {
@@ -11,7 +12,7 @@ struct OpenAD {
       }
       .fullSize()
 
-      if (this.second > 0) {
+      if (this.second > -1) {
         this.ad()
       }
     }
@@ -32,17 +33,22 @@ struct OpenAD {
         })
     }
     .fullSize()
+    .opacity(this.op)
     .backgroundColor('#fefefe')
     .onAppear(() => {
       let timer = setInterval(() => {
-        this.second -= 1
-
-        if (this.second <= 0) {
+        if (this.second <= 1) {
+          this.op = 0
           console.log("清除定时器")
           clearInterval(timer)
+        } else {
+          this.second--
         }
       }, 1000)
 
+    })
+    .animation({
+      duration: 1000
     })
   }
 
