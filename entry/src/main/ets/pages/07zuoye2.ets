@@ -48,11 +48,6 @@ const employeeList: Employee[] = [
   "birth": 1075535514000
 }]
 
-const a: Date = new Date(1075535514000)
-console.log(`${a.getFullYear()}`);
-
-console.log(`${(new Date(1075535514000)).getFullYear()}`);
-
 @Entry
 @Component
 struct FormatDate {
