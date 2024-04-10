@@ -57,7 +57,8 @@ struct FormatDate {
       username: item.username,
       avatar: item.avatar,
       gender: item.gender,
-      birth: item.birth.toString()
+      birth: `${(new Date(item.birth).getFullYear())}-${(new Date(item.birth)).getMonth()
+      }-${(new Date(item.birth)).getDay()}`
     }
     return temp
   })
@@ -81,8 +82,7 @@ struct FormatDate {
                   .borderRadius(20)
                 Text(item.username)
                   .fontWeight(900)
-                Text(`${(new Date(parseInt(item.birth))).getFullYear()}-${(new Date(parseInt(item.birth))).getMonth()
-                }-${(new Date(parseInt(item.birth))).getDay()}`)
+                Text(item.birth)
                   .fontWeight(900)
                 Text(item.gender)
                   .fontWeight(900)
