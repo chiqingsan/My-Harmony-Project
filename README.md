@@ -25,7 +25,7 @@ About Hongmeng’s test project files
     ·
     <a href="https://gitee.com/chiqingsan/my-harmony-project/issues">报告Bug</a>
     ·
-    <a href="https://gitee.com/chiqingsan/my-harmony-project/issues">提出新特性</a>
+    <a href="./entry/src/main/ets/pages">进入Pages</a>
   </p>
 
 </p>
