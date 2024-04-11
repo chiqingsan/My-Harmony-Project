@@ -1,59 +1,123 @@
-@Entry
-@Component
-struct Index {
-  @State text1: string = "a"
-  @State text2: string = this.text1
+const colors = [
+  '#FF0000', // 红色
+  '#00FF00', // 绿色
+  '#0000FF', // 蓝色
+  '#FFFF00', // 黄色
+  '#FF00FF', // 粉红色
+  '#00FFFF', // 青色
+  '#800000', // 栗色
+  '#008000', // 深绿色
+  '#000080', // 深蓝色
+  '#808000', // 橄榄色
+  '#800080', // 紫色
+  '#008080', // 碧绿色
+  '#C0C0C0', // 银色
+  '#808080', // 灰色
+  '#FFA500', // 橙色
+  '#A52A2A', // 棕色
+  '#FF0000', // 红色
+  '#00FF00', // 绿色
+  '#0000FF', // 蓝色
+  '#FFFF00', // 黄色
+  '#FF00FF', // 粉红色
+  '#00FFFF', // 青色
+  '#800000', // 栗色
+  '#008000', // 深绿色
+  '#000080', // 深蓝色
+  '#808000', // 橄榄色
+  '#800080', // 紫色
+  '#008080', // 碧绿色
+  '#C0C0C0', // 银色
+  '#808080', // 灰色
+  '#FFA500', // 橙色
+  '#A52A2A', // 棕色
+  '#C0C0C0', // 银色
+  '#808080', // 灰色
+  '#FFA500', // 橙色
+  '#A52A2A',// 棕色
 
-  build() {
-    Column({ space: 20 }) {
-      myButton({
-        text: this.text1, fn: () => {
-          // console.log(this.text1)
-          this.text1 = "bbb"
-        }
-      })
-      myButton({
-        text: this.text2, fn: () => {
-          // console.log(this.text2)
-          this.text2 = "ccc"
-        }
-      })
+];
 
-      // 点击回调
-      myButton1(() => {
-        this.text1 = "123"
+@Observed
+class color {
+  color: string
+  num: number
 
-      })
-    }
-    .width("100%")
+  constructor(color: string, num: number) {
+    this.color = color
+    this.num = num
   }
 }
 
-// 定义一个接口类型, 提供给button构建函数$$双向绑定时使用
-interface buttonText {
-  text: string
-  fn: () => void
+@Entry
+@Component
+struct Index {
+  @State rownumstart: number = 0
+  @State columnnumstart: number = 0
+  @State rownumend: number = 2
+  @State columnnumend: number = 1
+  @State test: color[] = [
+    new color("#123", 4),
+    new color("#456", 4),
+    new color("#678", 4),
+    new color("#235", 4),
+    new color("#653", 4),
+    new color("#15a", 4),
+    new color("#1a1", 4),
+    new color("#a1a", 4),
+    new color("#a3a", 4),
+    new color("#a33", 4),
+    new color("#22a", 4),
+    new color("#a11", 4),
+  ]
+
+  build() {
+    Column() {
+      myGrid({ test: this.test[1] })
+    }
+    .width("100%")
+    .aspectRatio(1)
+
+  }
 }
 
-// $$ 双向绑定
-@Builder
-// 使用export导出全局builder, 提供给其他模块使用
-export function myButton($$: buttonText) {
-  Button($$.text)
-    .width(80)
-    .onClick(() => {
-      // console.log($$.text)
-      $$.fn()
-    })
-}
+@Component
+struct myGrid {
+  @ObjectLink test: color
 
-// 点击回调
-@Builder
-export function myButton1(fn: () => void) {
-  Button("点我")
-    .width(80)
-    .onClick(() => {
-      // console.log($$.text)
-      fn()
-    })
+  build() {
+    Column()
+      .width("100%")
+      .height("100%")
+      .backgroundColor("#ccc")
+      .onClick(() => {
+        console.log(JSON.stringify(this.test));
+      })
+    // Grid() {
+    //   ForEach(
+    //     this.test,
+    //     (item: color, index) => {
+    //       GridItem()
+    //         .rowStart(0)
+    //         .rowEnd(item.num)
+    //         .columnStart(0)
+    //         .columnEnd(item.num)
+    //         .backgroundColor(item.color)
+    //         .borderRadius(99)
+    //         .onHover(() => {
+    //           console.log("移入:我是第" + index + "个GridItem")
+    //         })
+    //         .onMouse(() => {
+    //           console.log("移入或点击:我是第" + index + "个GridItem")
+    //         })
+    //         .onClick(() => {
+    //           console.log("点击:我是第" + index + "个GridItem")
+    //           this.test[index].num = item.num - 1
+    //         })
+    //     }
+    //   )
+    // }
+    // .rowsTemplate("1fr 1fr 1fr 1fr 1fr 1fr")
+    // .columnsTemplate("1fr 1fr 1fr 1fr 1fr 1fr ")
+  }
 }

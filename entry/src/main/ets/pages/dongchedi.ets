@@ -1,6 +1,5 @@
 import * as dcd from '../common/data'
 
-
 @Entry
 @Component
 struct Index {
@@ -202,7 +201,6 @@ struct Index {
           Image($r("app.media.home_content_2"))
           Image($r("app.media.home_content_3"))
 
-
         }
         .width("100%")
 
@@ -281,7 +279,6 @@ struct Index {
             }
 
             // 价格标签
-
             Grid() {
               ForEach(
                 dcd.filterKeys,
@@ -335,6 +332,7 @@ struct Index {
             }
           }
         }
+        .margin({ bottom: 10 })
 
         ForEach(
           dcd.groupCarInfoList,
