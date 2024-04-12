@@ -1,6 +1,8 @@
 {
   "src": [
     "pages/Index",
-    "pages/Login"
+    "pages/dongchedi",
+    "pages/09checkboxlianxi2",
+    "pages/08htttptest"
   ]
 }
