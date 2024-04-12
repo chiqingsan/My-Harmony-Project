@@ -117,6 +117,7 @@ struct Index {
             (item: string) => {
               ListItem() {
                 Text(item)
+                  .fontWeight(item === "詹梓杨" ? 900 : 400)
               }
             }
           )

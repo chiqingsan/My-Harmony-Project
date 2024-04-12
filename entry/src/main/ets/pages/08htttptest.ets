@@ -21,6 +21,7 @@ function myHttp(): Promise<string> {
     })
       .catch(() => {
         console.log("查询出错")
+        reject("catch, 查询出错")
       })
   })
 
@@ -30,20 +31,32 @@ function myHttp(): Promise<string> {
 @Component
 struct Index {
   @State str: string = ""
+  @State isShow: boolean = false
 
   aboutToAppear(): void {
-    myHttp().then((str) => {
-      console.log("123")
-      this.str = str
-    }).catch(() => {
-      console.log("catch")
-    })
+    myHttp()
+      .then((str) => {
+        console.log("then")
+        this.str = str
+        console.log(this.str)
+      })
+      .catch(() => {
+        console.log("catch,请求出错了")
+      })
   }
 
   build() {
     Column() {
-      Text(this.str)
-        .fontSize(30)
+      Text(`返回数据: ${this.str}`)
+        .fontSize(20)
+        .width("100%")
+      Button("点击查询Str")
+        .onClick(() => {
+          this.isShow = !this.isShow
+          console.log("str", this.str)
+        })
     }
+    .width("100%")
+    .height("100%")
   }
 }
