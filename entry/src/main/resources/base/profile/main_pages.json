@@ -1,10 +1,6 @@
 {
   "src": [
     "pages/Index",
-    "pages/dongchedi",
-    "pages/09checkboxlianxi",
-    "pages/09checkboxlianxi2",
-    "pages/08htttptest",
-    "pages/Page_tongzhi"
+    "pages/Login"
   ]
 }

@@ -51,7 +51,7 @@ const treeData: Department[] = [
       employees: [
         {
           username: '张珊',
-          avatar: $r("app.media.user_01"),
+          avatar: $r("app.media.user_0123"),
           gender: '女',
           birth: 1693039237877,
         },
