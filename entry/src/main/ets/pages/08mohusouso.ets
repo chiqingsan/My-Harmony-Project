@@ -31,6 +31,8 @@ struct Index {
         })
           .onChange((val) => {
             this.inputInfo = val
+
+            // 完成用户输入的逻辑判断, 输入, 删除, 替换
             if (val.length > this.deleteTheText) {
               this.deleteTheText = val.length
               this.userTextInfo = val
@@ -42,6 +44,7 @@ struct Index {
               this.userTextInfo = val
             }
 
+            // 当用户清除内容时, 将搜索历史信息加入历史信息数组
             if (val.length === 0) {
               console.log("用户删除完成", "记录删除内容")
               this.deleteTheText = 0
@@ -63,6 +66,7 @@ struct Index {
             radius: 10
           })
           .onClick(() => {
+            // 清除输入框内容
             this.historyInputInfo = ""
           })
 
@@ -91,6 +95,7 @@ struct Index {
                 .padding(10)
                 .margin(10)
                 .onClick(() => {
+                  // 点击历史记录, 绑定到输入框
                   this.historyInputInfo = item
                 })
             }
@@ -105,6 +110,7 @@ struct Index {
       List({ space: 12 }) {
         if (this.inputInfo) {
           ForEach(
+            // 模糊搜索过滤, 返回新数组
             this.nameArr.filter((str) => {
               return str.includes(this.inputInfo)
             }),
