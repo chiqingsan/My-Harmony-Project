@@ -92,7 +92,6 @@ function userInputInfo($$: InputValueInfo) {
 @Builder
 function userInput() {
   Row({ space: 20 }) {
-
   }
   .padding({ left: 12, right: 12 })
   .onClick(() => {
