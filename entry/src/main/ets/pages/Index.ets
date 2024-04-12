@@ -1,40 +1,52 @@
 import { router } from '@kit.ArkUI'
 
+class jumpToThePage {
+  title: string
+  path: string
+
+  constructor(title: string, path: string) {
+    this.title = title
+    this.path = path
+  }
+}
+
 @Entry
 @Component
 struct Index {
+  private myPage: jumpToThePage[] = [
+    new jumpToThePage("跳转到 懂车帝 案例", "pages/dongchedi"),
+    new jumpToThePage("跳转到 购物车 案例", "pages/09checkboxlianxi2"),
+    new jumpToThePage("跳转到 http 案例", "pages/08htttptest"),
+    new jumpToThePage("跳转到 通知 案例", "pages/Page_tongzhi"),
+  ]
+
   build() {
     Column({ space: 20 }) {
 
 
-      this.myRow("跳转到 懂车帝 案例", () => {
-        router.pushUrl({
-          url: "pages/09checkboxlianxi2"
-        })
-      })
-      this.myRow("跳转到 购物车 案例", () => {
-        router.pushUrl({
-          url: "pages/dongchedi"
-        })
-      })
-      this.myRow("跳转到 Http 案例", () => {
-        router.pushUrl({
-          url: "pages/08htttptest"
-        })
-      })
+      ForEach(
+        this.myPage,
+        (item: jumpToThePage) => {
+          this.myRow(item.title, item.path)
+        }
+      )
 
 
     }.padding(20)
   }
 
   @Builder
-  myRow(str: string, fn: () => void) {
+  myRow(str: string, path: string) {
     Row() {
       Text(str)
         .fontSize(30)
     }
     .onClick(() => {
-      fn()
+      router.pushUrl({
+        url: path,
+      },
+        router.RouterMode.Single
+      )
 
     })
     .myRowStyle()
