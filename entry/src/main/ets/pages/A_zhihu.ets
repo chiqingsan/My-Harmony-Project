@@ -1,5 +1,4 @@
-import { it } from '@ohos/hypium/src/main/interface'
-
+// 装饰类, 监视对象内的数据修改
 @Observed
 class ReplyItem {
   id: number = 0
@@ -11,6 +10,7 @@ class ReplyItem {
   likeNum: number = 0
   likeFlag: boolean = false
 }
+
 
 @Observed
 class ReplyData {
@@ -107,6 +107,7 @@ struct ZhiHu {
             // 顶部组件
             HmNavBar()
             // 顶部评论
+            // --------------------- objectlink传值可以引发视图更新 ---------------------
             CommentItem({ item: this.rootComment })
             // 分割线
             Divider()
@@ -117,7 +118,12 @@ struct ZhiHu {
 
             // 回复评论列表
             ForEach(this.commentList, (item: ReplyItem) => {
+
+              // --------------------- 关键代码: objectlink传值不能引发视图更新 ---------------------
               CommentItem({ item: item })
+                .onClick(() => {
+                  console.log("打印信息", `${JSON.stringify(item)}`)
+                })
             })
           }
           .width('100%')
@@ -200,6 +206,7 @@ struct CommentItem {
               .width(14)
               .aspectRatio(1)
               .fillColor(this.item.likeFlag ? "#c3c4c5" : Color.Red)//  "#c3c4c5" 或 red
+                // --------------------- 关键点击逻辑---------------------
               .onClick(() => {
                 console.log("123")
                 this.item.likeFlag = !this.item.likeFlag

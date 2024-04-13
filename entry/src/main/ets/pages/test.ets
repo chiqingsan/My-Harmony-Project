@@ -26,9 +26,12 @@ myArrObj.sort((a: myclass, b: myclass) => {
 @Component
 struct Index {
   @State testArr: myclass[] = myArrObj
+  @State maobj: myclass = new myclass(123, "test", false)
 
   build() {
     Column() {
+
+      myComp({ item: this.maobj })
       ForEach(
         this.testArr,
         (item: myclass) => {
