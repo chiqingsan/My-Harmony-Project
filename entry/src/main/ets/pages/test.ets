@@ -1,29 +1,61 @@
-interface OBJ {
+@Observed
+class myclass {
+  id: number
   name: string
-  num: number
+  bool: boolean
+
+  constructor(id: number, name: string, bool: boolean) {
+    this.id = id
+    this.name = name
+    this.bool = bool
+  }
 }
 
-let obj: OBJ[] = Array.from({ length: 30 })
+const myArrObj: myclass[] = []
 
-function getRandomOBJ(obj: OBJ[]) {
-  obj.forEach((item, index) => {
-    obj[index] = {
-      name: Math.floor(Math.random() * 1000 + 1000).toString(),
-      num: Math.floor(Math.random() * 100)
-    }
-  })
-  // console.log("obj", JSON.stringify(obj))
-  return obj
+let i = 0
+while (i < 10) {
+  i++
+  myArrObj.push(new myclass(Math.floor(Math.random() * 100), `${Math.random() * 10000000}`, false))
 }
-
-obj = getRandomOBJ(obj)
-
-console.log('', JSON.stringify(obj))
+myArrObj.sort((a: myclass, b: myclass) => {
+  return a.id - b.id
+})
 
 @Entry
 @Component
 struct Index {
-  build() {
+  @State testArr: myclass[] = myArrObj
 
+  build() {
+    Column() {
+      ForEach(
+        this.testArr,
+        (item: myclass) => {
+          myComp({ item: item })
+        }
+      )
+    }
+  }
+}
+
+
+@Component
+struct myComp {
+  @ObjectLink item: myclass
+
+  build() {
+    Row() {
+      Text("id:" + this.item.id.toString())
+      Text("name: " + this.item.name)
+    }
+    .width("100%")
+    .height(40)
+    .justifyContent(FlexAlign.SpaceEvenly)
+    .onClick(() => {
+      this.item.bool = !this.item.bool
+      this.item.bool ? this.item.id++ : this.item.id--
+      console.log("这个组件的id++了")
+    })
   }
 }
