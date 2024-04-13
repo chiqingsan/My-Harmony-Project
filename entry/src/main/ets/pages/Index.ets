@@ -19,19 +19,24 @@ struct Index {
     new jumpToThePage("跳转到 http 案例", "pages/08htttptest"),
     new jumpToThePage("跳转到 通知 案例", "pages/Page_tongzhi"),
     new jumpToThePage("跳转到 渐变 案例", "pages/Page_jianbian"),
+    new jumpToThePage("跳转到 web 案例", "pages/Page_Webview"),
+    new jumpToThePage("跳转到 video 案例", "pages/Page_video"),
   ]
 
   build() {
-    Column({ space: 20 }) {
+    Column() {
 
 
-      ForEach(
-        this.myPage,
-        (item: jumpToThePage) => {
-          this.myRow(item.title, item.path)
-        }
-      )
-
+      List({ space: 20 }) {
+        ForEach(
+          this.myPage,
+          (item: jumpToThePage) => {
+            ListItem() {
+              this.myRow(item.title, item.path)
+            }
+          }
+        )
+      }
 
       Text("热加载测试")
         .fontSize(30)
@@ -44,6 +49,7 @@ struct Index {
     Row() {
       Text(str)
         .fontSize(30)
+        .textAlign(TextAlign.Center)
     }
     .onClick(() => {
       router.pushUrl({

@@ -5,6 +5,8 @@
     "pages/09checkboxlianxi2",
     "pages/08htttptest",
     "pages/Page_tongzhi",
-    "pages/Page_jianbian"
+    "pages/Page_jianbian",
+    "pages/Page_Webview",
+    "pages/Page_video"
   ]
 }
