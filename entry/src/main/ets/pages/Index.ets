@@ -18,6 +18,7 @@ struct Index {
     new jumpToThePage("跳转到 购物车 案例", "pages/09checkboxlianxi2"),
     new jumpToThePage("跳转到 http 案例", "pages/08htttptest"),
     new jumpToThePage("跳转到 通知 案例", "pages/Page_tongzhi"),
+    new jumpToThePage("跳转到 渐变 案例", "pages/Page_jianbian"),
   ]
 
   build() {
@@ -31,6 +32,9 @@ struct Index {
         }
       )
 
+
+      Text("热加载测试")
+        .fontSize(30)
 
     }.padding(20)
   }
