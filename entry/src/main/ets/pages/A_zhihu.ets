@@ -1,18 +1,38 @@
-import { it } from '@ohos/hypium/src/main/interface'
-
-@Observed
-class ReplyItem {
-  id: number = 0
-  avatar: ResourceStr = ""
-  author: string = ""
-  content: string = ""
-  time: string = ""
-  area: string = ""
-  likeNum: number = 0
-  likeFlag: boolean = false
+interface ReplyItem {
+  id: number
+  avatar: ResourceStr
+  author: string
+  content: string
+  time: string
+  area: string
+  likeNum: number
+  likeFlag: boolean
 }
 
+// 创建一个类,用来实现接口
 @Observed
+class userInfo implements ReplyItem {
+  id: number
+  avatar: ResourceStr
+  author: string
+  content: string
+  time: string
+  area: string
+  likeNum: number
+  likeFlag: boolean
+
+  constructor(id: number, avatar: ResourceStr, author: string, content: string, time: string, area: string, likeNum: number, likeFlag: boolean) {
+    this.id = id
+    this.avatar = avatar
+    this.author = author
+    this.content = content
+    this.time = time
+    this.area = area
+    this.likeNum = likeNum
+    this.likeFlag = likeFlag
+  }
+}
+
 class ReplyData {
   static getCommentList(): ReplyItem[] {
     return [
@@ -93,11 +113,30 @@ class ReplyData {
   }
 }
 
+function constructUserData(item: ReplyItem[]) {
+  const temp: userInfo[] = []
+  item.forEach((substance) => {
+    temp.push(
+      new userInfo(
+        substance.id,
+        substance.avatar,
+        substance.author,
+        substance.content,
+        substance.time,
+        substance.area,
+        substance.likeNum,
+        substance.likeFlag,
+      )
+    )
+  })
+  return temp
+}
+
 @Entry
 @Component
 struct ZhiHu {
-  @State commentList: ReplyItem[] = ReplyData.getCommentList()
-  @State rootComment: ReplyItem = ReplyData.getRootComment()
+  @Provide commentList: userInfo[] = constructUserData(ReplyData.getCommentList())
+  @Provide rootComment: ReplyItem = ReplyData.getRootComment()
 
   build() {
     Stack({ alignContent: Alignment.Bottom }) {
@@ -116,7 +155,7 @@ struct ZhiHu {
             ReplyCount()
 
             // 回复评论列表
-            ForEach(this.commentList, (item: ReplyItem) => {
+            ForEach(this.commentList, (item: userInfo) => {
               CommentItem({ item: item })
             })
           }
@@ -175,7 +214,7 @@ struct HmNavBar {
 
 @Component
 struct CommentItem {
-  @ObjectLink item: ReplyItem
+  @ObjectLink item: userInfo
 
   build() {
     Row() {
@@ -201,12 +240,11 @@ struct CommentItem {
               .aspectRatio(1)
               .fillColor(this.item.likeFlag ? "#c3c4c5" : Color.Red)//  "#c3c4c5" 或 red
               .onClick(() => {
-                console.log("123")
                 this.item.likeFlag = !this.item.likeFlag
                 this.item.likeFlag ? this.item.likeNum-- : this.item.likeNum++
-                console.log("bool", this.item.likeFlag)
-
+                console.log("bool", JSON.stringify(this.item))
               })
+
             Text(this.item.likeNum.toString())
               .fontSize(12)
               .margin({
@@ -247,18 +285,41 @@ struct ReplyCount {
 
 @Component
 struct ReplyInput {
+  @State userIpnut: string = ""
+  @Consume commentList: userInfo[]
+
   build() {
     Row() {
-      TextInput({ placeholder: '回复' })
+      TextInput({ placeholder: '回复', text: this.userIpnut })
         .layoutWeight(1)
         .backgroundColor("#f4f5f6")
         .height(40)
+        .onChange((val) => {
+          this.userIpnut = val
+        })
       Text('发布')
         .fontColor("#6ecff0")
         .fontSize(14)
         .margin({
           left: 10
         })
+        .onClick(() => {
+          this.commentList.push(
+            new userInfo(
+              123,
+              $r("app.media.avatar"),
+              "持青伞",
+              this.userIpnut,
+              `${(new Date()).getMonth()}-${(new Date()).getDate()}`,
+              "深圳",
+              999,
+              false,
+            )
+          )
+          this.userIpnut = ""
+          // console.log("com", JSON.stringify(this.commentList[this.commentList.length-1]))
+        })
+
 
     }
     .padding(10)
