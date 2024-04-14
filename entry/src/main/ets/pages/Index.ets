@@ -21,6 +21,8 @@ struct Index {
     new jumpToThePage("跳转到 渐变 案例", "pages/Page_jianbian"),
     new jumpToThePage("跳转到 web 案例", "pages/Page_Webview"),
     new jumpToThePage("跳转到 video 案例", "pages/Page_video"),
+    new jumpToThePage("跳转到 电影购票 案例", "pages/Page_MyMovie"),
+    new jumpToThePage("跳转到 数据持久化 案例", "pages/Page_PersistentStorage"),
   ]
 
   build() {
@@ -38,9 +40,6 @@ struct Index {
         )
       }
 
-      Text("热加载测试")
-        .fontSize(30)
-
     }.padding(20)
   }
 
@@ -48,7 +47,8 @@ struct Index {
   myRow(str: string, path: string) {
     Row() {
       Text(str)
-        .fontSize(30)
+        .fontSize(26)
+        .margin({ left: 20 })
         .textAlign(TextAlign.Center)
     }
     .onClick(() => {
@@ -67,6 +67,7 @@ struct Index {
 function myRowStyle() {
   .width("100%")
   .height(70)
-  .backgroundColor("#44112233")
+  .backgroundColor("#8cf0afc8")
   .borderRadius(10)
+  .padding(10)
 }
