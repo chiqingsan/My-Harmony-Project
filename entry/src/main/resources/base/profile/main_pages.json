@@ -8,6 +8,7 @@
     "pages/Page_jianbian",
     "pages/Page_Webview",
     "pages/Page_video",
-    "pages/A_zhihu"
+    "pages/A_zhihu",
+    "pages/Page_http"
   ]
 }
