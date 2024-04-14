@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "chiqingsan",
+      "like": "palygame"
+    },
+    {
+      "id": 2,
+      "name": "chiqingsan1",
+      "like": "palygame"
+    },
+    {
+      "id": 3,
+      "name": "chiqingsan2",
+      "like": "palygame"
+    },
+    {
+      "id": 4,
+      "name": "chiqingsan3",
+      "like": "palygame"
+    }
+  ],
+  "home": {
+  },
+  "list": {
+  }
+}
