@@ -32,8 +32,8 @@ struct AnimationDemo {
         .onClick(() => {
           // 点击触发
           animateTo({
-            duration: 2000,
-            curve: Curve.Ease,
+            duration: 1000,
+            curve: Curve.EaseIn,
             playMode: PlayMode.Alternate,
             iterations: -1
           }, () => {
