@@ -89,14 +89,14 @@ struct commentComponent {
             .fontColor("#959697")
             .mytextstyle(14, 300, "#959697")
           Blank()
-          Text(`支持(${this.item.inTheTank})`)
+          Text(`${this.item.inTheTankBool ? "已支持" : "支持"}(${this.item.inTheTank})`)
             .mytextstyle(14, 400, "#1C731E")
             .margin({ right: 15 })
             .onClick(() => {
               this.item.inTheTankBool = !this.item.inTheTankBool
               this.item.inTheTankBool ? this.item.inTheTank++ : this.item.inTheTank--
             })
-          Text(`反对(${this.item.oppose})`)
+          Text(`${this.item.opposeBool ? "已反对" : "反对"}(${this.item.oppose})`)
             .mytextstyle(14, 400, "#D62726")
             .onClick(() => {
               this.item.opposeBool = !this.item.opposeBool
