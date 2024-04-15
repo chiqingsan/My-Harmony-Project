@@ -21,6 +21,7 @@ struct Index {
     new jumpToThePage("跳转到 渐变 案例", "pages/Page_jianbian"),
     new jumpToThePage("跳转到 web 案例", "pages/Page_Webview"),
     new jumpToThePage("跳转到 video 案例", "pages/Page_video"),
+    new jumpToThePage("跳转到 电影购票 案例", "pages/Page_MyMovie"),
   ]
 
   build() {
