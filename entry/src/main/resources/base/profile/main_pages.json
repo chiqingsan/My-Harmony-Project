@@ -14,6 +14,7 @@
     "pages/Page_PersistentStorage",
     "pages/Bill/BillIndexPage",
     "pages/Bill/BillAddPage",
-    "pages/Page_chijiuhuatest"
+    "pages/Page_chijiuhuatest",
+    "pages/Page_chijiuhuatest2"
   ]
 }

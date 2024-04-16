@@ -1,7 +1,7 @@
 {
   "app": {
     "bundleName": "com.example.myharmony",
-    "patchVersionCode": 2000028,
+    "patchVersionCode": 2000033,
     "versionCode": 1000000
   },
   "module": {

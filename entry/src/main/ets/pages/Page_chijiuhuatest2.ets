@@ -1,4 +1,4 @@
-class myclassb {
+class myClass {
   id: string
   name: string
 
@@ -8,22 +8,21 @@ class myclassb {
   }
 }
 
+const PERKEY = "todo"
+PersistentStorage.persistProp<string>(PERKEY, JSON.stringify("[]"))
+
+// 洗澡
 @Entry
 @Component
-struct Page_chijiuhuatest {
-  @State message: myclassb[] = []
+struct Index {
+  @State message: myClass[] = []
   @State inputInfo: string = ""
 
   aboutToAppear(): void {
-    // 页面创建时拿到所有保存的key
-    let keys = PersistentStorage.keys()
-    // 遍历所有的key, 查找this.message数组里面有没有重复存在的数据,如果没有则使用JSON解析出对象添加至末尾
-    keys.forEach((str) => {
-      // 如果key名和id相同,则不添加如数组
-      if (this.message.findIndex(obj => obj.id === str) === -1) {
-        this.message.push(JSON.parse(AppStorage.get(str) as string))
-      }
-    })
+    const appStr = AppStorage.get<string>(PERKEY) as string
+    const list = JSON.parse(appStr) as (myClass[])
+    // console.log("ddddd",appStr,JSON.parse(appStr) ,Array.isArray(list))
+    this.message.push(...list)
   }
 
   build() {
@@ -36,18 +35,16 @@ struct Page_chijiuhuatest {
           .layoutWeight(1)
         Button("新建任务")
           .onClick(() => {
-            this.message.push(new myclassb(this.inputInfo))
+            this.message.push(new myClass(this.inputInfo))
             // 把this.message数组最后一位进行数据持久化
-            PersistentStorage.persistProp<string>(this.message[this.message.length-1].id, JSON.stringify(this.message[this.message.length-1]))
-            // this.inputInfo = ""
-            console.log("keys", PersistentStorage.keys())
+            AppStorage.set(PERKEY, JSON.stringify((this.message)))
           })
       }
 
       List({ space: 20 }) {
         ForEach(
           this.message,
-          (item: myclassb, index) => {
+          (item: myClass, index) => {
             ListItem() {
               Row() {
                 Text(item.name)

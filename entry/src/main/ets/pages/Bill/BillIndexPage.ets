@@ -38,8 +38,6 @@ function handlePostbackData(item: billingInformation): mylistOfBills {
     BillData.payBillCategoryList.forEach((value) => {
       value.items.forEach((list) => {
         if (list.id === item.id) {
-          console.log(list.name)
-          console.log(JSON.stringify(list.icon))
           tempname = list.name
           tempicon = list.icon
         }
@@ -66,13 +64,18 @@ function totalSpending(item: mylistOfBills[]) {
   }, 0)
 }
 
+// 初始化 PersistentStorage, 持久化一个空数组
+const myBill = "myBill"
+PersistentStorage.persistProp<string>(myBill, JSON.stringify([]))
+
+
 @Entry
 @Component
 struct Billd_IndexPage {
   // 账单列表初始内容
-  @State listOfBills: mylistOfBills[] = [
-    new mylistOfBills(1, $r('app.media.food'), "餐费", -23, BillData.BillType.Pay)
-  ]
+  @State listOfBills: mylistOfBills[] = []
+  // 初始内容:
+  // new mylistOfBills(1, $r('app.media.food'), "餐费", -23, BillData.BillType.Pay)
   // 记录支出
   @State expenditure: number = 0
   // 记录收入
@@ -80,36 +83,24 @@ struct Billd_IndexPage {
   // 记录结余
   @State balance: number = 0
 
+  // 在创建页面时, 对持久化数据进行取出处理
+  aboutToAppear(): void {
+    const arrayOfBills = AppStorage.get(myBill) as string
+    const list = JSON.parse(arrayOfBills) as mylistOfBills[]
+    this.listOfBills = [...list]
+  }
+
   // 当页面重新显示的时候, 开始处理数据
   onPageShow(): void {
-    // const temp = router.getParams() as mylistOfBills
-    // console.log("router", JSON.stringify(temp))
     if (router.getParams()) {
       this.listOfBills.push(handlePostbackData(router.getParams() as billingInformation))
+      // 添加持久化数据
+      AppStorage.set(myBill, JSON.stringify(this.listOfBills))
       // const mytempdata: mylistOfBills = handlePostbackData(router.getParams() as billingInformation)
       // PersistentStorage.persistProp<string>(mytempdata.date, JSON.stringify(mytempdata))
       // console.log("cqs12313132")
     }
     this.refreshTheData()
-    // 初始化 数据持久化
-
-    // this.listOfBills.forEach((item) => {
-    //   console.log("cqs正在持久化:", item.name)
-    //   PersistentStorage.persistProp<string>(item.date, JSON.stringify(item))
-    //   AppStorage.set(item.date, JSON.stringify(item))
-    // })
-    //
-    // let keys: Array<string> = PersistentStorage.keys();
-    // console.log("cqsksys", keys)
-    // console.log("cqsksys内容:", AppStorage.get(keys[0]))
-    //
-    // keys.forEach((item) => {
-    //   if (this.listOfBills.findIndex(v => v.date == item) === -1) {
-    //     this.listOfBills.push(JSON.parse(AppStorage.get(item) as string))
-    //   }
-    // })
-    //
-    // console.log("cqslist", JSON.stringify(this.listOfBills))
   }
 
   // 刷新支出收入数据
@@ -160,7 +151,6 @@ struct Billd_IndexPage {
             this.listOfBills,
             (item: mylistOfBills, index) => {
               ListItem() {
-                // DailyBillSection({ item: JSON.parse(AppStorage.get(item.name) as string) })
                 DailyBillSection({ item: item })
               }
               .swipeAction({
@@ -195,7 +185,7 @@ struct Billd_IndexPage {
       .margin(5)
       .onClick(() => {
         this.listOfBills.splice(index, 1)
-        // AppStorage.delete(item.date)
+        AppStorage.set(myBill, JSON.stringify(this.listOfBills))
         this.refreshTheData()
       })
   }
@@ -211,7 +201,7 @@ struct BillInfo {
       Text(this.billNum)
         .fontSize(20)
       Text(this.billName)
-        
+
         .fontSize(12)
     }
     .layoutWeight(1)
