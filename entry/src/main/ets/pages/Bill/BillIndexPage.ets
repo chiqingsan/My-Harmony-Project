@@ -154,7 +154,7 @@ struct Billd_IndexPage {
                 DailyBillSection({ item: item })
               }
               .swipeAction({
-                end: this.delSection(item, index)
+                end: this.delSection(index)
               })
             }
           )
@@ -177,7 +177,7 @@ struct Billd_IndexPage {
 
   // 删除标签
   @Builder
-  delSection(item: mylistOfBills, index: number) {
+  delSection(index: number) {
     Image($r('app.media.ic_public_delete_filled'))
       .objectFit(ImageFit.Contain)
       .fillColor('#ec6073')
