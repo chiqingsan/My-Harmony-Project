@@ -1,6 +1,7 @@
 import { router } from '@kit.ArkUI'
 import * as BillData from "../../common/BillData"
 
+// 定义一个接收路由传递过来的数据结构接口
 interface billingInformation {
   id: number
   price: number
@@ -22,12 +23,14 @@ class mylistOfBills implements BillData.UseForItem {
     this.name = name
     this.price = price
     this.type = type
+    // 使用时间戳作为数据持久化的名字,避免重复名覆盖
     this.date = Date.now().toString()
   }
 }
 
 
-//处理路由回传数据
+// 处理路由回传数据,返回用于账单列表渲染的数据类型
+// 由于路由传递icon失败, 所以改用此方法
 function handlePostbackData(item: billingInformation): mylistOfBills {
   let tempname: string = ""
   let tempicon: ResourceStr = ""
@@ -66,6 +69,7 @@ function totalSpending(item: mylistOfBills[]) {
 @Entry
 @Component
 struct Billd_IndexPage {
+  // 账单列表初始内容
   @State listOfBills: mylistOfBills[] = [
     new mylistOfBills(1, $r('app.media.food'), "餐费", -23, BillData.BillType.Pay)
   ]
@@ -78,13 +82,13 @@ struct Billd_IndexPage {
 
   // 当页面重新显示的时候, 开始处理数据
   onPageShow(): void {
-    const temp = router.getParams() as mylistOfBills
-    console.log("router", JSON.stringify(temp))
+    // const temp = router.getParams() as mylistOfBills
+    // console.log("router", JSON.stringify(temp))
     if (router.getParams()) {
-      // this.listOfBills.push(handlePostbackData(router.getParams() as billingInformation))
-      const mytempdata: mylistOfBills = handlePostbackData(router.getParams() as billingInformation)
-      PersistentStorage.persistProp<string>(mytempdata.date, JSON.stringify(mytempdata))
-      console.log("cqs12313132")
+      this.listOfBills.push(handlePostbackData(router.getParams() as billingInformation))
+      // const mytempdata: mylistOfBills = handlePostbackData(router.getParams() as billingInformation)
+      // PersistentStorage.persistProp<string>(mytempdata.date, JSON.stringify(mytempdata))
+      // console.log("cqs12313132")
     }
     this.refreshTheData()
     // 初始化 数据持久化
@@ -94,18 +98,18 @@ struct Billd_IndexPage {
     //   PersistentStorage.persistProp<string>(item.date, JSON.stringify(item))
     //   AppStorage.set(item.date, JSON.stringify(item))
     // })
-
-    let keys: Array<string> = PersistentStorage.keys();
-    console.log("cqsksys", keys)
-    console.log("cqsksys内容:", AppStorage.get(keys[0]))
-
-    keys.forEach((item) => {
-      if (this.listOfBills.findIndex(v => v.date == item) === -1) {
-        this.listOfBills.push(JSON.parse(AppStorage.get(item) as string))
-      }
-    })
-
-    console.log("cqslist", JSON.stringify(this.listOfBills))
+    //
+    // let keys: Array<string> = PersistentStorage.keys();
+    // console.log("cqsksys", keys)
+    // console.log("cqsksys内容:", AppStorage.get(keys[0]))
+    //
+    // keys.forEach((item) => {
+    //   if (this.listOfBills.findIndex(v => v.date == item) === -1) {
+    //     this.listOfBills.push(JSON.parse(AppStorage.get(item) as string))
+    //   }
+    // })
+    //
+    // console.log("cqslist", JSON.stringify(this.listOfBills))
   }
 
   // 刷新支出收入数据
@@ -250,7 +254,7 @@ struct AddButton {
       .borderRadius(20)
       .border({ width: 1, color: '#8e939d' })
       .translate({ x: -20, y: -20 })
-      .backgroundColor('#f6f6f6')
+      .backgroundColor('#f6f6f6')// 路由跳转至添加账单页面
       .onClick(() => {
         router.pushUrl({
           url: "pages/Bill/BillAddPage"

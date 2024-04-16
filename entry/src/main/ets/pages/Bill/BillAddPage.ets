@@ -137,9 +137,9 @@ struct IconCom {
         .textAlign(TextAlign.Center)
     }
     .padding(5)
+    // 记录点击的子项id
     .onClick(() => {
       this.expenditureID = this.item.id
-
     })
   }
 }
@@ -157,7 +157,7 @@ struct expensesPage {
 
       ForEach(
         this.item,
-        (item: BillData.UseForCategory, index) => {
+        (item: BillData.UseForCategory) => {
 
           Column({ space: 20 }) {
             Text(item.title)
