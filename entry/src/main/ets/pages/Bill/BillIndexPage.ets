@@ -211,6 +211,7 @@ struct BillInfo {
       Text(this.billNum)
         .fontSize(20)
       Text(this.billName)
+        
         .fontSize(12)
     }
     .layoutWeight(1)

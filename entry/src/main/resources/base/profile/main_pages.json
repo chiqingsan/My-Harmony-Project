@@ -13,6 +13,7 @@
     "pages/Page_MyMovie",
     "pages/Page_PersistentStorage",
     "pages/Bill/BillIndexPage",
-    "pages/Bill/BillAddPage"
+    "pages/Bill/BillAddPage",
+    "pages/Page_chijiuhuatest"
   ]
 }
