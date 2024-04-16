@@ -51,8 +51,20 @@ struct Bill_AddPage {
         // 支付收入切换
         if (this.orderIndex === BillData.BillType.Pay) {
           expensesPage({ expenditureID: this.expenditureID, item: BillData.payBillCategoryList })
+            .transition({
+              type: TransitionType.All,
+              opacity: 0.3,
+              translate: { x: "-100%" }
+            })
+
         } else {
           expensesPage({ expenditureID: this.expenditureID, item: BillData.inComBillCategoryList })
+            .transition({
+              type: TransitionType.All,
+              opacity: 0.3,
+              translate: { x: "100%" }
+            })
+
         }
 
 
@@ -98,7 +110,12 @@ struct Bill_AddPage {
         .backgroundColor(this.orderIndex === BillData.BillType.Pay ? Color.Black : Color.White)
         .fontColor(this.orderIndex === BillData.BillType.Pay ? Color.White : Color.Black)
         .onClick(() => {
-          this.orderIndex = BillData.BillType.Pay
+          animateTo({
+            duration: 700,
+            curve: Curve.EaseInOut
+          }, () => {
+            this.orderIndex = BillData.BillType.Pay
+          })
         })
 
       Text('收入')
@@ -106,8 +123,12 @@ struct Bill_AddPage {
         .backgroundColor(this.orderIndex === BillData.BillType.InCome ? Color.Black : Color.White)
         .fontColor(this.orderIndex === BillData.BillType.InCome ? Color.White : Color.Black)
         .onClick(() => {
-          this.orderIndex = BillData.BillType.InCome
-
+          animateTo({
+            duration: 500,
+            curve: Curve.Ease
+          }, () => {
+            this.orderIndex = BillData.BillType.InCome
+          })
         })
     }
   }

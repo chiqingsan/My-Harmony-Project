@@ -184,7 +184,12 @@ struct Billd_IndexPage {
       .width(30)
       .margin(5)
       .onClick(() => {
-        this.listOfBills.splice(index, 1)
+        animateTo({
+          duration: 1000,
+          curve: Curve.Ease
+        }, () => {
+          this.listOfBills.splice(index, 1)
+        })
         AppStorage.set(myBill, JSON.stringify(this.listOfBills))
         this.refreshTheData()
       })
@@ -201,7 +206,6 @@ struct BillInfo {
       Text(this.billNum)
         .fontSize(20)
       Text(this.billName)
-
         .fontSize(12)
     }
     .layoutWeight(1)
@@ -231,6 +235,10 @@ struct DailyBillSection {
     .borderRadius(10)
     .padding(15)
     .backgroundColor(Color.White)
+    .transition({
+      type: TransitionType.Delete,
+      translate: { x: "-60%" }
+    })
 
   }
 }
