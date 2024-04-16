@@ -21,6 +21,10 @@ struct Page_PersistentStorage {
     new mySwitch("免打扰"),
   ]
 
+  onPageShow(): void {
+    console.log("cqs" + PersistentStorage.keys().toString())
+  }
+
   build() {
     Column({ space: 30 }) {
       Column({ space: 10 }) {

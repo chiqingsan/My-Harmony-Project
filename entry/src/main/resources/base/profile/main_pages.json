@@ -11,6 +11,8 @@
     "pages/A_zhihu",
     "pages/Page_http",
     "pages/Page_MyMovie",
-    "pages/Page_PersistentStorage"
+    "pages/Page_PersistentStorage",
+    "pages/Bill/BillIndexPage",
+    "pages/Bill/BillAddPage"
   ]
 }

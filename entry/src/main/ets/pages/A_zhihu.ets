@@ -275,10 +275,12 @@ struct CommentItem {
 
 @Component
 struct ReplyCount {
+  @Consume commentList: userInfo[]
+
   build() {
     Text() {
       Span('回复')
-      Span(`${27}`)
+      Span(`${this.commentList.length}`)
     }
     .padding(15)
     .fontWeight(700)

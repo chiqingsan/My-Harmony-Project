@@ -23,6 +23,7 @@ struct Index {
     new jumpToThePage("跳转到 video 案例", "pages/Page_video"),
     new jumpToThePage("跳转到 电影购票 案例", "pages/Page_MyMovie"),
     new jumpToThePage("跳转到 数据持久化 案例", "pages/Page_PersistentStorage"),
+    new jumpToThePage("跳转到 记账本 案例", "pages/Bill/BillIndexPage"),
   ]
 
   build() {
