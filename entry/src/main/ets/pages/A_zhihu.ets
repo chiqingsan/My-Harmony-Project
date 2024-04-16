@@ -137,11 +137,13 @@ function constructUserData(item: ReplyItem[]) {
 struct ZhiHu {
   @Provide commentList: userInfo[] = constructUserData(ReplyData.getCommentList())
   @Provide rootComment: ReplyItem = ReplyData.getRootComment()
+  // 滚动条控制器
+  scrollControl: Scroller = new Scroller()
 
   build() {
     Stack({ alignContent: Alignment.Bottom }) {
       Column() {
-        Scroll() {
+        Scroll(this.scrollControl) {
           Column() {
             // 顶部组件
             HmNavBar()
@@ -170,7 +172,8 @@ struct ZhiHu {
       }
       .height('100%')
 
-      ReplyInput()
+      ReplyInput({ scrollControl: this.scrollControl })
+
     }
     .height('100%')
   }
@@ -287,6 +290,7 @@ struct ReplyCount {
 struct ReplyInput {
   @State userIpnut: string = ""
   @Consume commentList: userInfo[]
+  scrollControl: Scroller = new Scroller()
 
   build() {
     Row() {
@@ -304,19 +308,23 @@ struct ReplyInput {
           left: 10
         })
         .onClick(() => {
-          this.commentList.push(
-            new userInfo(
-              123,
-              $r("app.media.avatar"),
-              "持青伞",
-              this.userIpnut,
-              `${(new Date()).getMonth()}-${(new Date()).getDate()}`,
-              "深圳",
-              999,
-              false,
+          if (this.userIpnut) {
+            this.commentList.push(
+              new userInfo(
+                123,
+                $r("app.media.avatar"),
+                "持青伞",
+                this.userIpnut,
+                `${(new Date()).getMonth()}-${(new Date()).getDate()}`,
+                "深圳",
+                999,
+                false,
+              )
             )
-          )
-          this.userIpnut = ""
+            this.userIpnut = ""
+            this.scrollControl.scrollTo({ xOffset: 0, yOffset: 999999 })
+
+          }
           // console.log("com", JSON.stringify(this.commentList[this.commentList.length-1]))
         })
 
