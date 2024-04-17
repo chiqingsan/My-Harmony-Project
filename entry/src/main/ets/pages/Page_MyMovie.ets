@@ -13,7 +13,6 @@ async function myHttpFun(src: string) {
       method: http.RequestMethod.GET
     }
   )
-
   // 返回请求数据
   return JSON.parse(httpData.result.toString())
 

@@ -11,16 +11,18 @@ const DEEP_GRAY: string = '#bebebe'
 export default struct Main {
   @State
   list: CartGood[] = goodList
+  @State huiyuanprice: number = 0
+  @State yuanprice: number = 0
 
   build() {
     Column() {
       // 标题
-      TitleCom()
+      TitleCom({ listLength: this.list.length })
       // 内容
-      ContentCom({ list: this.list })
+      ContentCom({ list: this.list, totalPrice: this.yuanprice })
 
       // 支付
-      PayCom()
+      PayCom({ list: this.list, huiyuanprice: this.huiyuanprice, yuanprice: this.yuanprice })
     }
     .height('100%')
     .backgroundColor(LIGHT_GRAY)
@@ -30,13 +32,14 @@ export default struct Main {
 // 内容区域
 @Component
 struct ContentCom {
+  @Prop totalPrice: number
   @Link list: CartGood[]
 
   build() {
     Scroll() {
       Column() {
         // 支付
-        FreightCom()
+        FreightCom({ totalPrice: this.totalPrice })
           .margin(10)
 
         if (this.list.length) {
@@ -82,11 +85,21 @@ struct ContentCom {
         .fillColor('#ec6073')
         .margin(10)
         .onClick(() => {
-          this.list.splice(this.list.findIndex(v => v.id === id), 1)
+          animateTo({
+            duration: 500,
+            curve: Curve.Ease
+          }, () => {
+            this.list.splice(this.list.findIndex(v => v.id === id), 1)
+          })
         })
     }
     .width(65)
-    .height("80%")
+    .height("70%")
+    .margin({ left: 5 })
+    .border({
+      width: { left: 1 },
+      color: "#ddd"
+    })
     .justifyContent(FlexAlign.Center)
   }
 }
@@ -94,11 +107,13 @@ struct ContentCom {
 // 标题(显示商品种类)
 @Component
 struct TitleCom {
+  @Prop listLength: number
+
   build() {
     Row() {
       // 文字
       Stack({ alignContent: Alignment.Bottom }) {
-        Text(`购物车(10 )`)
+        Text(`购物车(${this.listLength})`)
           .height('100%')
         Text('')
           .width(25)
@@ -137,81 +152,86 @@ struct TitleCom {
 struct FreightCom {
   // 默认 69 可以由外部传入
   minPrice: number = 69.00
-  totalPrice: number = 0
+  @Prop totalPrice: number = 0
 
   build() {
     Column() {
-      // 运费不够 提示
-      Row() {
-        Row({ space: 5 }) {
-          // 凑单免运费
-          Text() {
-            Span('凑单')
-            Span('免运费')
-              .fontColor(MAIN_RED)
-          }
-          .fontSize(13)
-          .fontFamily('medium')
 
-          // 分割线
-          Divider()
-            .vertical(true)
-            .height(8)
-            .color(DEEP_GRAY)
-            .strokeWidth(1)
-
-          // 运费信息
-          Row() {
+      if (this.totalPrice <= this.minPrice) {
+        // 运费不够 提示
+        Row() {
+          Row({ space: 5 }) {
+            // 凑单免运费
             Text() {
-              Span('还需凑钱 ')
-              Span(`¥${(this.minPrice - this.totalPrice).toFixed(2)}`)
+              Span('凑单')
+              Span('免运费')
                 .fontColor(MAIN_RED)
-              Span('可免运费')
             }
             .fontSize(13)
+            .fontFamily('medium')
 
-            Image($r('app.media.ic_yhd_order_info'))
-              .width(15)
+            // 分割线
+            Divider()
+              .vertical(true)
+              .height(8)
+              .color(DEEP_GRAY)
+              .strokeWidth(1)
+
+
+            // 运费信息
+            Row() {
+              Text() {
+                Span('还需凑钱 ')
+                Span(`¥${(this.minPrice - this.totalPrice).toFixed(2)}`)
+                  .fontColor(MAIN_RED)
+                Span('可免运费')
+              }
+              .fontSize(13)
+
+              Image($r('app.media.ic_yhd_order_info'))
+                .width(15)
+            }
+          }
+
+          // 按钮
+          Button() {
+            Row() {
+              Text('去凑单')
+                .fontColor(Color.White)
+                .fontSize(12)
+              Image($r('app.media.ic_public_arrow_right'))
+                .height(14)
+                .width(10)
+                .fillColor(Color.White)
+            }
+            .backgroundColor(MAIN_RED)
+            .borderRadius(20)
+            .padding({ left: 10, top: 3, bottom: 3, right: 2 })
           }
         }
+        .width('100%')
+      } else {
+        // 运费足够 提示
+        Row({ space: 5 }) {
+          Text('运费')
+            .backgroundColor(MAIN_RED)
+            .fontSize(12)
+            .fontColor(Color.White)
+            .padding(2)
+            .borderRadius(3)
+          Divider()
+            .vertical(true)
+            .height(12)
+            .strokeWidth(2)
+          Text('已免运费')
+            .fontSize(12)
+            .fontColor(Color.Gray)
+          Image('/common/day08-10/yhd/ic_yhd_order_info.png')
+            .width(15)
 
-        // 按钮
-        Button() {
-          Row() {
-            Text('去凑单')
-              .fontColor(Color.White)
-              .fontSize(12)
-            Image($r('app.media.ic_public_arrow_right'))
-              .height(14)
-              .width(10)
-              .fillColor(Color.White)
-          }
-          .backgroundColor(MAIN_RED)
-          .borderRadius(20)
-          .padding({ left: 10, top: 3, bottom: 3, right: 2 })
         }
       }
-      .width('100%')
 
-      // 运费足够 提示
-      Row({ space: 5 }) {
-        Text('运费')
-          .backgroundColor(MAIN_RED)
-          .fontSize(12)
-          .fontColor(Color.White)
-          .padding(2)
-          .borderRadius(3)
-        Divider()
-          .vertical(true)
-          .height(12)
-          .strokeWidth(2)
-        Text('已免运费')
-          .fontSize(12)
-          .fontColor(Color.Gray)
-        Image('/common/day08-10/yhd/ic_yhd_order_info.png')
-          .width(15)
-
-      }
     }
     .borderRadius(5)
     .height(30)
@@ -225,6 +245,10 @@ struct FreightCom {
 // 支付（最下方组件）
 @Component
 struct PayCom {
+  @Link huiyuanprice: number
+  @Link yuanprice: number
+  @Link list: CartGood[]
+
   build() {
     Row() {
       Row() {
@@ -232,6 +256,19 @@ struct PayCom {
           group: 'cart'
         })
           .selectedColor(MAIN_RED)
+          .onChange((val) => {
+            console.log(JSON.stringify(val))
+            this.huiyuanprice = this.list.filter(item => val.name.indexOf(item.id) != -1)
+              .reduce((a: number, b: CartGood) => a + b.good.jdPrice * b.count, 0)
+
+            this.huiyuanprice = Number(this.huiyuanprice.toFixed(2))
+
+            this.yuanprice = this.list.filter(item => val.name.indexOf(item.id) != -1)
+              .reduce((a: number, b: CartGood) => a + b.good.jdMainPrice * b.count, 0)
+
+            this.yuanprice = Number(this.yuanprice.toFixed(2))
+
+          })
 
         Text('全选')
           .fontSize(12)
@@ -242,9 +279,9 @@ struct PayCom {
           .fontSize(14)
         PriceCom({
           fontColor: Color.Black,
-          price: 0
+          price: this.yuanprice
         })
-        Button(`入会结算(0)`)
+        Button(`入会结算(${this.huiyuanprice})`)
           .fontColor('#ffe3cc')
           .backgroundColor(Color.Black)
           .fontSize(14)
@@ -263,7 +300,7 @@ struct PayCom {
 // 价格（根据传入的价格渲染数字）
 @Component
 struct PriceCom {
-  @Prop price: number = 0
+  @Prop price: number
   fontColor: ResourceColor = MAIN_RED
   discard: boolean = false
 
@@ -339,6 +376,7 @@ struct GoodsListItem {
     Row({ space: 10 }) {
       // 左
       Checkbox({
+        name: this.item.id,
         group: 'cart'
       })
         .shape(CheckBoxShape.CIRCLE)
@@ -382,6 +420,12 @@ struct GoodsListItem {
             Counter() {
               Text(this.item.count.toString())
             }
+            .onInc(() => {
+              this.item.count++
+            })
+            .onDec(() => {
+              this.item.count > 1 ? this.item.count-- : 0
+            })
 
             .scale({ x: .8, y: .8 })
           }
@@ -395,6 +439,10 @@ struct GoodsListItem {
       .layoutWeight(1)
     }
     .padding({ left: 10, top: 10, bottom: 10 })
+    .transition({
+      type: TransitionType.Delete,
+      translate: { x: "-80%" }
+    })
 
   }
 }
