@@ -16,15 +16,13 @@ struct Index {
   private myPage: jumpToThePage[] = [
     new jumpToThePage("跳转到 懂车帝 案例", "pages/dongchedi"),
     new jumpToThePage("跳转到 购物车 案例", "pages/09checkboxlianxi2"),
-    new jumpToThePage("跳转到 http 案例", "pages/08htttptest"),
-    new jumpToThePage("跳转到 通知 案例", "pages/Page_tongzhi"),
+    new jumpToThePage("跳转到 通知 案例", "pages/Page_tongzhi2"),
     new jumpToThePage("跳转到 渐变 案例", "pages/Page_jianbian"),
     new jumpToThePage("跳转到 web 案例", "pages/Page_Webview"),
-    new jumpToThePage("跳转到 video 案例", "pages/Page_video"),
     new jumpToThePage("跳转到 电影购票 案例", "pages/Page_MyMovie"),
     new jumpToThePage("跳转到 数据持久化 案例", "pages/Page_PersistentStorage"),
-    new jumpToThePage("跳转到 记账本 案例", "pages/Bill/BillIndexPage"),
     new jumpToThePage("跳转到 数据持久化2 案例", "pages/Page_chijiuhuatest2"),
+    new jumpToThePage("跳转到 记账本 案例", "pages/Bill/BillIndexPage"),
   ]
 
   build() {
@@ -41,6 +39,7 @@ struct Index {
           }
         )
       }
+      .scrollBar(BarState.Off)
 
     }.padding(20)
   }

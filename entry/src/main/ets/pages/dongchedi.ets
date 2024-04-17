@@ -1,4 +1,4 @@
-import * as dcd from '../common/data'
+import * as dcd from '../Data/data'
 
 @Entry
 @Component

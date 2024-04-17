@@ -54,6 +54,7 @@ struct Index {
                   .backgroundColor(Color.Red)
                   .onClick(() => {
                     this.message.splice(index, 1)
+                    AppStorage.set(PERKEY, JSON.stringify((this.message)))
                   })
               }
               .width("100%")

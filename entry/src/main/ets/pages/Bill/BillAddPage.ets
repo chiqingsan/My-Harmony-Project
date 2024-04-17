@@ -1,5 +1,5 @@
-import * as BillData from "../../common/BillData"
-import { router } from '@kit.ArkUI'
+import * as BillData from "../../Data/BillData"
+import { promptAction, router } from '@kit.ArkUI'
 
 
 @Entry
@@ -83,8 +83,14 @@ struct Bill_AddPage {
                 params: {
                   id: this.expenditureID,
                   price: this.orderIndex ? this.inputInfo : -this.inputInfo,
-                  type: this.orderIndex
+                  type: this.orderIndex,
+                  date: Date.now().toString()
                 }
+              })
+            } else {
+              promptAction.showToast({
+                message: "输入记账金额\n并且选择出入账类型后才可保存噢~",
+                bottom: 200,
               })
             }
           })

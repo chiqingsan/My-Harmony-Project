@@ -1,11 +1,12 @@
 import { router } from '@kit.ArkUI'
-import * as BillData from "../../common/BillData"
+import * as BillData from "../../Data/BillData"
 
 // 定义一个接收路由传递过来的数据结构接口
 interface billingInformation {
   id: number
   price: number
   type: BillData.BillType
+  date: string
 }
 
 // 账单结构
@@ -17,14 +18,14 @@ class mylistOfBills implements BillData.UseForItem {
   type: BillData.BillType
   date: string
 
-  constructor(id: number, icon: ResourceStr, name: string, price: number, type: BillData.BillType) {
+  constructor(id: number, icon: ResourceStr, name: string, price: number, type: BillData.BillType, date: string) {
     this.id = id
     this.icon = icon
     this.name = name
     this.price = price
     this.type = type
     // 使用时间戳作为数据持久化的名字,避免重复名覆盖
-    this.date = Date.now().toString()
+    this.date = date
   }
 }
 
@@ -54,7 +55,7 @@ function handlePostbackData(item: billingInformation): mylistOfBills {
     })
   }
 
-  return new mylistOfBills(item.id, tempicon, tempname, item.price, item.type)
+  return new mylistOfBills(item.id, tempicon, tempname, item.price, item.type, item.date)
 }
 
 // 算总支出收入
@@ -92,13 +93,11 @@ struct Billd_IndexPage {
 
   // 当页面重新显示的时候, 开始处理数据
   onPageShow(): void {
-    if (router.getParams()) {
+    if (router.getParams() && this.listOfBills.findIndex(v => v.date === (router.getParams() as billingInformation).date) === -1) {
       this.listOfBills.push(handlePostbackData(router.getParams() as billingInformation))
       // 添加持久化数据
       AppStorage.set(myBill, JSON.stringify(this.listOfBills))
-      // const mytempdata: mylistOfBills = handlePostbackData(router.getParams() as billingInformation)
-      // PersistentStorage.persistProp<string>(mytempdata.date, JSON.stringify(mytempdata))
-      // console.log("cqs12313132")
+
     }
     this.refreshTheData()
   }
@@ -141,9 +140,6 @@ struct Billd_IndexPage {
         .backgroundImage($r('app.media.bill_title_bg'))
         .backgroundImageSize({ width: '100%', height: '100%' })
         .padding(20)
-        .onClick(() => {
-          console.log(PersistentStorage.keys().toString())
-        })
 
         // 账单区域
         List({ space: 10 }) {
@@ -154,10 +150,11 @@ struct Billd_IndexPage {
                 DailyBillSection({ item: item })
               }
               .swipeAction({
-                end: this.delSection(index)
+                end: this.delSection(item.date)
               })
-            }
-          )
+            }, (item: mylistOfBills, index) => {
+            return item.date
+          })
 
         }
         .width('100%')
@@ -177,7 +174,7 @@ struct Billd_IndexPage {
 
   // 删除标签
   @Builder
-  delSection(index: number) {
+  delSection(date: string) {
     Image($r('app.media.ic_public_delete_filled'))
       .objectFit(ImageFit.Contain)
       .fillColor('#ec6073')
@@ -188,7 +185,7 @@ struct Billd_IndexPage {
           duration: 1000,
           curve: Curve.Ease
         }, () => {
-          this.listOfBills.splice(index, 1)
+          this.listOfBills.splice(this.listOfBills.findIndex(v => v.date === date), 1)
         })
         AppStorage.set(myBill, JSON.stringify(this.listOfBills))
         this.refreshTheData()

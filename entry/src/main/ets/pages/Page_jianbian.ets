@@ -9,11 +9,8 @@ struct Page_jianbian {
   aboutToAppear(): void {
     this.timer1 = setInterval(() => {
       // 改变方向
-      if (this.myDirection < 135) {
-        this.myDirection += Math.random() * 10
-      } else {
-        this.myDirection -= Math.random() * 10
-      }
+      this.myDirection += Math.random() * 10
+
 
       // 控制渐变值的范围
       if (this.gradient_a >= 0.25) {
@@ -30,7 +27,7 @@ struct Page_jianbian {
 
       console.log("a", this.gradient_a, "b", this.gradient_b);
       console.log("定时器运行中...");
-    }, 700);
+    }, 1000);
   }
 
   aboutToDisappear(): void {
@@ -43,13 +40,15 @@ struct Page_jianbian {
         Row()
           .width("100%")
           .aspectRatio(1)
-          .borderRadius(40)
+          .borderRadius(50)
+          .margin({ top: 20 })
           .linearGradient({
             angle: this.myDirection,
             colors: [["#ff71acee", this.gradient_a], ["#ffb46aed", this.gradient_b]]
           })
           .animation({
-            duration: 700
+            duration: 1000,
+            curve: Curve.Ease
           })
 
         Column()
