@@ -26,7 +26,7 @@ struct Index {
     Scroll() {
       Column() {
         // 全部数据
-        Text(JSON.stringify(this.myData))
+        Text(JSON.stringify(this.myData[0]))
         Divider()
           .strokeWidth(5)
           .margin(20)
