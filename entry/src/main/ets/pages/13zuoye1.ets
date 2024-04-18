@@ -26,11 +26,6 @@ struct Index {
     new myitemclass("/image/img/13zuoye/project03.png", "鸿蒙知识点", "以ArkTS与ArkUI为主的鸿蒙基础知识点讲解", "鸿蒙应用"),
   ]
 
-  // 项目内容, 插槽进去
-  @Builder
-  projectContent(item: myitemclass) {
-
-  }
 
   build() {
     Column() {
@@ -59,7 +54,6 @@ struct Index {
         )
       }
     }
-
   }
 }
 
@@ -97,7 +91,6 @@ export struct projectInformation {
 
   }
 }
-
 
 @Extend(Text)
 function mytextsytle(size: number = 16, wei: number = 400, color: string = "#000") {

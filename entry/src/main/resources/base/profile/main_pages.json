@@ -19,6 +19,8 @@
     "pages/Page_tongzhi2",
     "pages/Page_1haodian",
     "pages/13zuoye1",
-    "pages/13zuoye2"
+    "pages/13zuoye2",
+    "pages/XCFDetailPage",
+    "pages/XCFHomePage"
   ]
 }

@@ -40,12 +40,10 @@ export struct projectInformation_a {
 @Entry
 @Component
 struct Index {
-  // @State mydetailTitle: myitemclass = new myitemclass("/image/img/13zuoye/project02.png", "后台管理系统", "以Vue技理后台后台管理系统面试题面试整理", "学习进度: 10%")
   onPageShow(): void {
     if (router.getParams()) {
       const temp = router.getParams() as object
       this.mydetailTitle = temp["item"]
-      console.log(`onPageShow${JSON.stringify(this.mydetailTitle)}`)
     }
   }
 

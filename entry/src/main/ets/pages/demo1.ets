@@ -34,7 +34,7 @@ struct Index {
 
   @Builder
   mybuilder_a(myVariable: myClass) {
-    Text(myVariable.name2)
+    Text(this.myVariable.name2)
   }
 }
 
