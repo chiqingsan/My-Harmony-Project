@@ -1,17 +1,55 @@
+import { http } from '@kit.NetworkKit'
+
+function myHttp(src: string) {
+  const request = http.createHttp()
+  return request.request(
+    src,
+    {
+      method: http.RequestMethod.GET
+    }
+  )
+}
+
+
 @Entry
 @Component
-struct Index {
+struct a {
+  @State b: object[] = []
+  @State c: number = 0
+
   aboutToAppear(): void {
-    setInterval(() => {
-      this.time = Date.now().toString()
-    }, 1000)
+    myHttp('https://zhoushugang.gitee.io/fe2022/takeaway.json')
+      .then((resolve) => {
+        const Data: object[] = JSON.parse(resolve.result.toString())
+        this.b = Data
+        console.log(JSON.stringify(this.b))
+
+      })
+      .catch((err: Error) => {
+        console.error('catch', err.message)
+      })
+
   }
 
-  @State time: string = ""
-
   build() {
+
     Column() {
-      Text(this.time)
+
+      ForEach(this.b, (item: object) => {
+        Column() {
+          Row() {
+            Text(item["name"])
+          }
+
+          ForEach(
+            item["foods"],
+            (food: string) => {
+              Text(food["name"])
+            }
+          )
+        }
+      })
     }
+
   }
 }

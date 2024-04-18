@@ -25,6 +25,14 @@ struct Index {
     new jumpToThePage("跳转到 记账本 案例", "pages/Bill/BillIndexPage"),
   ]
 
+  onPageShow(): void {
+    // 获取页面状态
+    let page = router.getState();
+    console.log('current index = ' + page.index);
+    console.log('current name = ' + page.name);
+    console.log('current path = ' + page.path);
+  }
+
   build() {
     Column() {
 
