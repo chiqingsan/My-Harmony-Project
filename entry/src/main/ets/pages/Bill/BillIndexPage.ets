@@ -1,4 +1,4 @@
-import { router } from '@kit.ArkUI'
+import { promptAction, router } from '@kit.ArkUI'
 import * as BillData from "../../Data/BillData"
 
 // 定义一个接收路由传递过来的数据结构接口
@@ -83,12 +83,24 @@ struct Billd_IndexPage {
   @State revenue: number = 0
   // 记录结余
   @State balance: number = 0
+  @StorageProp("mymessage")
+  mymessage: string = ""
 
   // 在创建页面时, 对持久化数据进行取出处理
   aboutToAppear(): void {
     const arrayOfBills = AppStorage.get(myBill) as string
     const list = JSON.parse(arrayOfBills) as mylistOfBills[]
     this.listOfBills = [...list]
+
+    promptAction.showToast({
+      message: this.mymessage,
+      duration: 2000
+    })
+
+    const link = AppStorage.link<string>("mymessage")
+    link.set("改变了噢")
+    console.log("message:" + "改变了噢~");
+
   }
 
   // 当页面重新显示的时候, 开始处理数据

@@ -14,7 +14,7 @@ PersistentStorage.persistProp<string>(PERKEY, JSON.stringify("[]"))
 // 洗澡
 @Entry
 @Component
-struct Index {
+struct Index1 {
   @State message: myClass[] = []
   @State inputInfo: string = ""
 

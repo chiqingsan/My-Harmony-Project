@@ -21,6 +21,12 @@
     "pages/13zuoye1",
     "pages/13zuoye2",
     "pages/XCFDetailPage",
-    "pages/XCFHomePage"
+    "pages/XCFHomePage",
+    "pages/Page_14yingyong",
+    "pages/Page_14yingyong2",
+    "pages/Page_14yingyong3",
+    "pages/Page_shebei",
+    "pages/LoginPage",
+    "pages/MyCenterPage"
   ]
 }
