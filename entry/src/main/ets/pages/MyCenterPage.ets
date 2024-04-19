@@ -1,5 +1,19 @@
 import { router } from '@kit.ArkUI'
 import { storageUserInfo } from "./LoginPage"
+import picker from '@ohos.file.picker';
+
+// 一、定义图片选择 Picker 的配置
+// 实例化 选项对象
+const photoSelectOptions = new picker.PhotoSelectOptions();
+// 过滤选择媒体文件类型为IMAGE
+photoSelectOptions.MIMEType = picker.PhotoViewMIMETypes.IMAGE_TYPE;
+// 选择媒体文件的最大数目
+photoSelectOptions.maxSelectNumber = 1;
+
+
+// 二、创建 图片选择对象并选择图片
+const photoViewPicker = new picker.PhotoViewPicker();
+
 
 interface Tool {
   icon: ResourceStr
@@ -27,7 +41,6 @@ export struct MyCenterPage {
   account: string = ""
   @LocalStorageLink("landingTime")
   landingTime: string = ""
-
 
   @Builder
   toolsBuilder(tool: Tool) {
@@ -60,6 +73,14 @@ export struct MyCenterPage {
           .width(55)
           .aspectRatio(1)
           .borderRadius(55)
+          .onClick(() => {
+            // 调用 select 方法，传入选项对象
+            photoViewPicker.select(photoSelectOptions).then(res => {
+              const uri = res.photoUris[0]
+              // 因为只选了一张
+              // AlertDialog.show({ message: '图片路径为:' + uri })
+            })
+          })
         Column({ space: 4 }) {
           Text(this.name)
             .fontSize(18)
