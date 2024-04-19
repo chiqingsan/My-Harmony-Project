@@ -11,6 +11,14 @@
     {
       "name": "EntryAbility_label",
       "value": "记账本"
+    },
+    {
+      "name": "bookkeeping_desc",
+      "value": "description"
+    },
+    {
+      "name": "bookkeeping_label",
+      "value": "label"
     }
   ]
 }

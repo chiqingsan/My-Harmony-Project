@@ -10,6 +10,14 @@
     },
     {
       "name": "EntryAbility_label",
+      "value": "bookkeeping"
+    },
+    {
+      "name": "bookkeeping_desc",
+      "value": "description"
+    },
+    {
+      "name": "bookkeeping_label",
       "value": "label"
     }
   ]

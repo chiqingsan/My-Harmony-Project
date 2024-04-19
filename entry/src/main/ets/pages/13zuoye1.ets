@@ -26,7 +26,6 @@ struct Index {
     new myitemclass("/image/img/13zuoye/project03.png", "鸿蒙知识点", "以ArkTS与ArkUI为主的鸿蒙基础知识点讲解", "鸿蒙应用"),
   ]
 
-
   build() {
     Column() {
       Text("项目")
@@ -40,7 +39,7 @@ struct Index {
           this.myitem,
           (item: myitemclass) => {
             ListItem() {
-              projectInformation({ item: item })
+              projectInformation({ item: item, mySubstance: this.mySubstance })
                 .onClick(() => {
                   router.pushUrl({
                     url: "pages/13zuoye2",
@@ -55,12 +54,32 @@ struct Index {
       }
     }
   }
+
+  @Builder
+  mySubstance(item: myitemclass) {
+    Column() {
+      Text(item.itemname)
+        .mytextsytle(16, 600, "#323A43")
+      Text(item.itemIntroduce)
+        .mytextsytle(12, 600, "#8D9391")
+        .margin({ top: 3 })
+      Blank()
+      Text(item.type)
+        .mytextsytle(12, 400, "#6A8F88")
+        .backgroundColor("#F2F4F5")
+        .borderRadius(3)
+        .padding(5)
+    }
+    .alignItems(HorizontalAlign.Start)
+    .height("100%")
+  }
 }
 
 // 项目内容组件
 @Component
 export struct projectInformation {
   @ObjectLink item: myitemclass
+  @BuilderParam mySubstance: (item: myitemclass) => void
 
   build() {
 
@@ -70,21 +89,8 @@ export struct projectInformation {
         .borderRadius(5)
         .sharedTransition(this.item.id.toString(), { duration: 500 })
 
-      Column() {
-        Text(this.item.itemname)
-          .mytextsytle(16, 600, "#323A43")
-        Text(this.item.itemIntroduce)
-          .mytextsytle(12, 600, "#8D9391")
-          .margin({ top: 3 })
-        Blank()
-        Text(this.item.type)
-          .mytextsytle(12, 400, "#6A8F88")
-          .backgroundColor("#F2F4F5")
-          .borderRadius(3)
-          .padding(5)
-      }
-      .alignItems(HorizontalAlign.Start)
-      .height("100%")
+      this.mySubstance(this.item)
+
     }
     .height(140)
     .padding(16)

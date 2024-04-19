@@ -16,7 +16,8 @@ struct Index {
   private myPage: jumpToThePage[] = [
     new jumpToThePage("跳转到 懂车帝 案例", "pages/dongchedi"),
     new jumpToThePage("跳转到 购物车 案例", "pages/09checkboxlianxi2"),
-    new jumpToThePage("跳转到 通知 案例", "pages/Page_tongzhi2"),
+    new jumpToThePage("跳转到 通知 案例", "pages/Page_tongzhi"),
+    new jumpToThePage("跳转到 通知2 案例", "pages/Page_tongzhi2"),
     new jumpToThePage("跳转到 渐变 案例", "pages/Page_jianbian"),
     new jumpToThePage("跳转到 web 案例", "pages/Page_Webview"),
     new jumpToThePage("跳转到 电影购票 案例", "pages/Page_MyMovie"),

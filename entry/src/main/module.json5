@@ -32,13 +32,32 @@
             ]
           }
         ]
+      },
+      {
+        "name": "bookkeeping",
+        "srcEntry": "./ets/bookkeeping/bookkeeping.ets",
+        "description": "$string:bookkeeping_desc",
+        "icon": "$media:layered_image",
+        "label": "$string:bookkeeping_label",
+        "startWindowIcon": "$media:startIcon",
+        "startWindowBackground": "$color:start_window_background",
+        "exported": true,
+        "skills": [
+          {
+            "entities": [
+              "entity.system.home"
+            ],
+            "actions": [
+              "action.system.home"
+            ]
+          }
+        ]
       }
     ],
-    "requestPermissions":[
+    "requestPermissions": [
       {
         "name": "ohos.permission.INTERNET"
       },
     ]
-
   }
 }
