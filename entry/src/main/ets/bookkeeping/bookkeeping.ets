@@ -2,9 +2,20 @@ import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
 
+
+interface info {
+  info: string
+}
+
+type myinfo = Record<"info", info>
+
 export default class bookkeeping extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
+
+    const myinfo = want.parameters as myinfo
+    console.log("mymessage", JSON.stringify(myinfo.info))
+
   }
 
   onDestroy(): void {

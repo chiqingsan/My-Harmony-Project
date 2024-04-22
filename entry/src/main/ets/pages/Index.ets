@@ -48,6 +48,7 @@ struct Index {
       Button("跳转到记账本Ability")
         .margin(15)
         .onClick(() => {
+          globalThis.myinfo = "globalThis传递的信息"
           let wantInfo: Want = {
             deviceId: '',
             bundleName: "com.example.myharmony",

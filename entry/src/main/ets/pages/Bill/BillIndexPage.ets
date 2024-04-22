@@ -1,5 +1,7 @@
 import { promptAction, router } from '@kit.ArkUI'
 import * as BillData from "../../Data/BillData"
+import { common, Want } from '@kit.AbilityKit'
+import { c } from '../../common/PublicClass'
 
 // 定义一个接收路由传递过来的数据结构接口
 interface billingInformation {
@@ -70,6 +72,9 @@ const myBill = "myBill"
 PersistentStorage.persistProp<string>(myBill, JSON.stringify([]))
 
 
+const context = getContext(this) as common.UIAbilityContext
+
+
 @Entry
 @Component
 struct Billd_IndexPage {
@@ -92,6 +97,8 @@ struct Billd_IndexPage {
     const list = JSON.parse(arrayOfBills) as mylistOfBills[]
     this.listOfBills = [...list]
 
+    this.mymessage = globalThis.myinfo
+    
     promptAction.showToast({
       message: this.mymessage,
       duration: 2000
