@@ -30,6 +30,7 @@ struct Index {
     new jumpToThePage("跳转到 记账本 案例", "pages/Bill/BillIndexPage"),
     new jumpToThePage("跳转到 测试 案例", "pages/Page_shebei"),
     new jumpToThePage("跳转到 作业 案例", "pages/MyCenterPage"),
+    new jumpToThePage("跳转到 图书管理 案例", "pages/15tushuguanli"),
   ]
 
   onPageShow(): void {
@@ -70,7 +71,7 @@ struct Index {
 
       List({ space: 20 }) {
         ForEach(
-          this.myPage,
+          this.myPage.reverse(),
           (item: jumpToThePage) => {
             ListItem() {
               this.myRow(item.title, item.path)

@@ -86,6 +86,9 @@ struct Day01_07_Jokes {
 
       Image($r('app.media.ic_public_joke_logo'))
         .width(30)
+        .onClick(() => {
+          this.listScroller.scrollEdge(Edge.Top)
+        })
 
       Image($r('app.media.ic_public_search'))
         .width(30);
@@ -112,6 +115,19 @@ struct titleIcon {
       Text(this.info)
         .fontSize(14)
         .fontColor(Color.Gray)
+    }
+  }
+}
+
+@Component
+struct skeletonScreen {
+  @Prop length: number = 100
+
+  build() {
+    Stack() {
+      Text()
+        .width(this.length)
+      Text()
     }
   }
 }

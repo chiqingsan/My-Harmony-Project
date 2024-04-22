@@ -28,6 +28,9 @@
     "pages/Page_shebei",
     "pages/LoginPage",
     "pages/MyCenterPage",
-    "pages/yiyan"
+    "pages/yiyan",
+    "pages/Page_enroll",
+    "pages/15tushuguanli",
+    "pages/Day02_01_BookShelf_Add"
   ]
 }
