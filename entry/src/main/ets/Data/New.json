@@ -1,0 +1,45 @@
+{
+  "message": "获取新闻列表成功",
+  "data": [
+    {
+      "id": 1,
+      "title": "5G渗透率持续提升，创新业务快速成长",
+      "source": "新京报经济新闻",
+      "cmtcount": 58,
+      "img": "http://ajax-api.itheima.net/images/0.webp",
+      "time": "2222-10-28 11:50:28"
+    },
+    {
+      "id": 5,
+      "title": "为什么说中美阶段性协议再近一步，读懂周末的这些关键信息",
+      "source": "澎湃新闻",
+      "cmtcount": 131,
+      "img": "http://ajax-api.itheima.net/images/4.webp",
+      "time": "2222-10-24 09:08:34"
+    },
+    {
+      "id": 6,
+      "title": "阿根廷大选结果揭晓：反对派费尔南德斯有话要说",
+      "source": "海外网",
+      "cmtcount": 99,
+      "img": "http://ajax-api.itheima.net/images/5.webp",
+      "time": "2222-10-23 17:41:15"
+    },
+    {
+      "id": 8,
+      "title": "LV母公司当年史上最大并购：报价145亿美元购Tiffany",
+      "source": "澎湃新闻",
+      "cmtcount": 119,
+      "img": "http://ajax-api.itheima.net/images/7.webp",
+      "time": "2222-10-22 03:59:44"
+    },
+    {
+      "id": 9,
+      "title": "黄峥当年1350亿蝉联80后白手起家首富：1年中财富每天涨1个亿",
+      "source": "胡润百富",
+      "cmtcount": 676,
+      "img": "http://ajax-api.itheima.net/images/8.webp",
+      "time": "2222-10-21 06:19:37"
+    }
+  ]
+}
