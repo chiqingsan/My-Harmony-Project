@@ -1,19 +1,20 @@
 @Entry
 @Component
-struct skeletonScreen {
+export struct skeletonScreen {
   @State translateX: number | string = "-100%"
-  @Prop length: number = 100
+  @Prop length: number | string = 50
+  @Prop myhei: number | string = 18
 
   build() {
     Stack() {
       Text()
         .width(this.length)
-        .height(20)
+        .height(this.myhei)
         .borderRadius(4)
-        .backgroundColor("#c1c1c1")
+        .backgroundColor("#ffe2e2e2")
       Text()
         .width(this.length)
-        .height(18)
+        .height(this.myhei)
         .linearGradient({
           direction: GradientDirection.Right,
           colors: [
@@ -27,7 +28,7 @@ struct skeletonScreen {
         })
         .onAppear(() => {
           animateTo({
-            duration: 1500,
+            duration: 2000,
             curve: Curve.Linear,
             iterations: -1
           }, () => {
@@ -35,7 +36,6 @@ struct skeletonScreen {
           })
         })
     }
-    .width(100)
     .clip(true)
   }
 }

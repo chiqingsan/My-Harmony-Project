@@ -1,5 +1,4 @@
 import http from '@ohos.net.http'
-import { it } from '@ohos/hypium/src/main/interface'
 
 interface newsContent {
   id: number
@@ -90,6 +89,7 @@ struct ListInfo {
         .borderRadius(8)
     }
     .backgroundColor("#fff")
+    .borderRadius(4)
     .height(100)
     .padding(8)
   }

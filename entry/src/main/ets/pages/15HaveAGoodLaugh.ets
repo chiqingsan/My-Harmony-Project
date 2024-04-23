@@ -5,6 +5,7 @@
  * 4. 点击返回顶部
  * */
 import { http } from '@kit.NetworkKit'
+import { skeletonScreen } from './skeletonScreen'
 
 async function myhttp(num: number) {
   const res = await http.createHttp()
@@ -15,9 +16,11 @@ async function myhttp(num: number) {
 @Entry
 @Component
 struct Day01_07_Jokes {
-  @State jokes: string [] = ['笑话']
+  @State jokes: string [] = []
   jokeNum: number = 5
   @State refreshing: boolean = false
+  @State searchisshow: boolean = false
+  @State searchvalue: string = ""
   listScroller: Scroller = new Scroller()
 
   async aboutToAppear(): Promise<void> {
@@ -29,52 +32,71 @@ struct Day01_07_Jokes {
       Column() {
         // 顶部
         this.HeaderBuilder()
-        // 笑话列表
-        List({ space: 10, scroller: this.listScroller }) {
-          ForEach(this.jokes, (joke: string) => {
-            ListItem() {
-              Column({ space: 10 }) {
-                Text(joke.split("，")[0])
-                  .fontSize(20)
-                  .fontWeight(600)
-                Row({ space: 15 }) {
-                  titleIcon({ icon: $r('app.media.ic_public_time'), info: '2024-1-1' })
-                  titleIcon({ icon: $r('app.media.ic_public_read'), info: '阅读(6666)' })
-                  titleIcon({ icon: $r('app.media.ic_public_comments'), info: '评论(123)' })
+
+        if (this.jokes.length === 0) {
+          Column({ space: 10 }) {
+            // 骨架屏
+            ForEach(Array.from({ length: 6 }),
+              () => {
+                skeleton()
+              })
+          }
+          .padding(10)
+          .layoutWeight(1)
+        } else {
+          // 笑话列表
+          List({ space: 10, scroller: this.listScroller }) {
+            ForEach(
+              (this.searchvalue === "" ? this.jokes : this.jokes.filter(item => item.includes(this.searchvalue))),
+              (joke: string) => {
+                ListItem() {
+                  Column({ space: 10 }) {
+                    Text(joke.split("，")[0])
+                      .fontSize(20)
+                      .fontWeight(600)
+                    Row({ space: 15 }) {
+                      titleIcon({ icon: $r('app.media.ic_public_time'), info: '2024-1-1' })
+                      titleIcon({ icon: $r('app.media.ic_public_read'), info: '阅读(6666)' })
+                      titleIcon({ icon: $r('app.media.ic_public_comments'), info: '评论(123)' })
+                    }
+
+                    Text(joke)
+                      .fontSize(15)
+                      .fontColor(Color.Gray)
+                  }
+                  .width('100%')
+                  .alignItems(HorizontalAlign.Start)
+                  .padding(20)
+
                 }
+                .borderRadius(10)
+                .backgroundColor(Color.White)
+                .shadow({ radius: 2, color: Color.Gray })
+              })
 
-                Text(joke)
-                  .fontSize(15)
-                  .fontColor(Color.Gray)
-              }
-              .width('100%')
-              .alignItems(HorizontalAlign.Start)
-              .padding(20)
-
-            }
-            .borderRadius(10)
-            .backgroundColor(Color.White)
-            .shadow({ radius: 2, color: Color.Gray })
+          }
+          .padding(10)
+          .layoutWeight(1)
+          .onReachEnd(async () => {
+            this.jokes.push(...await myhttp(10))
           })
-
         }
-        .padding(10)
-        .layoutWeight(1)
-        .onReachEnd(async () => {
-          this.jokes.push(...await myhttp(10))
-        })
 
       }
       .width('100%')
       .height('100%')
       .backgroundColor('#f6f6f6')
+
     }
-    .onRefreshing(() => {
-      myhttp(10)
-        .then((res) => {
-          this.jokes = res
-          this.refreshing = false
-        })
+    .onRefreshing(async () => {
+      // myhttp(10)
+      //   .then((res) => {
+      //     this.jokes = res
+      //     this.refreshing = false
+      //   })
+      const res = await myhttp(10)
+      this.jokes = res
+      this.refreshing = false
     })
   }
 
@@ -84,14 +106,63 @@ struct Day01_07_Jokes {
       Image($r('app.media.ic_public_drawer_filled'))
         .width(25);
 
-      Image($r('app.media.ic_public_joke_logo'))
-        .width(30)
-        .onClick(() => {
-          this.listScroller.scrollEdge(Edge.Top)
+      if (this.searchisshow) {
+        Search({
+          placeholder: "输入文字进行筛选"
         })
+          .placeholderFont({
+            size: 14
+          })
+          .searchButton('搜索')
+          .width("80%")
+          .height(35)
+          .transition({
+            type: TransitionType.All,
+            translate: {
+              y: "-100%"
+            },
+            opacity: 1
+          })
+          .onSubmit((val) => {
+            console.log("sub", val)
+            this.searchvalue = val
+            animateTo({
+              duration: 1000,
+              curve: Curve.Smooth
+            }, () => {
+              this.searchisshow = false
+            })
+          })
+      } else {
+        Image($r('app.media.ic_public_joke_logo'))
+          .width(30)
+          .onClick(() => {
+            this.listScroller.scrollEdge(Edge.Top)
+          })
+          .transition({
+            type: TransitionType.All,
+            translate: {
+              x: -250
+            }
+          })
 
-      Image($r('app.media.ic_public_search'))
-        .width(30);
+        Image($r('app.media.ic_public_search'))
+          .width(30)
+          .transition({
+            type: TransitionType.All,
+            translate: {
+              x: 100
+            }
+          })
+          .onClick(() => {
+            animateTo({
+              duration: 1000,
+              curve: Curve.Smooth
+            }, () => {
+              this.searchisshow = true
+            })
+          })
+      }
     }
     .width('100%')
     .justifyContent(FlexAlign.SpaceBetween)
@@ -120,14 +191,28 @@ struct titleIcon {
 }
 
 @Component
-struct skeletonScreen {
-  @Prop length: number = 100
-
+struct skeleton {
   build() {
-    Stack() {
-      Text()
-        .width(this.length)
-      Text()
+
+    Row() {
+      Column({ space: 10 }) {
+        skeletonScreen({ length: 250 })
+        Row({ space: 15 }) {
+          skeletonScreen({ length: 50, myhei: 14 })
+          skeletonScreen({ length: 40, myhei: 14 })
+          skeletonScreen({ length: 40, myhei: 14 })
+        }
+
+        skeletonScreen({ length: "95%" })
+        skeletonScreen({ length: 180 })
+      }
+      .width('100%')
+      .alignItems(HorizontalAlign.Start)
+      .padding(20)
     }
+    .borderRadius(10)
+    .backgroundColor(Color.White)
+    .shadow({ radius: 2, color: Color.Gray })
+
   }
 }
