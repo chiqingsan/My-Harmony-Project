@@ -23,18 +23,14 @@ struct a {
         const Data: object[] = JSON.parse(resolve.result.toString())
         this.b = Data
         console.log(JSON.stringify(this.b))
-
       })
       .catch((err: Error) => {
         console.error('catch', err.message)
       })
-
   }
 
   build() {
-
     Column() {
-
       ForEach(this.b, (item: object) => {
         Column() {
           Row() {

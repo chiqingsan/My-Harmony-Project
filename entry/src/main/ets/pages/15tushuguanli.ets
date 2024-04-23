@@ -1,8 +1,7 @@
 import { promptAction, router } from '@kit.ArkUI'
 import { http } from '@kit.NetworkKit'
-import { data } from '@kit.TelephonyKit'
 
-
+// 图书格式
 export interface Book {
   id: number
   bookname: string
@@ -18,13 +17,14 @@ export interface submissionFormat {
   creator: string
 }
 
+// 用户名
 export const creator: string = 'chiqingsan'
 
-export function requestABook(url: string, method: http.RequestMethod = http.RequestMethod.GET, body?: submissionFormat | string) {
+// 封装http请求
+export function requestABook(parameter: string, method: http.RequestMethod = http.RequestMethod.GET, body?: submissionFormat | string) {
   const myhttp = http.createHttp()
-
   return myhttp.request(
-    method === "GET" ? `${url}?creator=${creator}` : url,
+    "https://hmajax.itheima.net/api/books" + parameter,
     {
       method: method,
       header: { contentType: "application/json" },
@@ -50,9 +50,9 @@ struct Day02_01_BookShelf {
   @State isLoading: boolean = true
 
   onPageShow(): void {
-    requestABook("https://hmajax.itheima.net/api/books", http.RequestMethod.GET)
+    requestABook(`/?creator=${creator}`)
       .then(res => {
-        console.log("res", JSON.stringify(res.result))
+        // console.log("res", JSON.stringify(res.result))
         this.books = [...res.result["data"] as Book[]]
       })
   }
@@ -69,7 +69,8 @@ struct Day02_01_BookShelf {
           .margin(10)
           .onDisAppear(() => {
             promptAction.showToast({
-              message: "加载完成~"
+              message: "加载完成~",
+              duration: 600
             })
           })
         Text("Loading ")
@@ -87,9 +88,6 @@ struct Day02_01_BookShelf {
               },
               edgeEffect: SwipeEdgeEffect.Spring
             })
-            .onClick(() => {
-
-            })
           }, (item: Book) => JSON.stringify(item))
         }
         .padding({
@@ -99,7 +97,6 @@ struct Day02_01_BookShelf {
           right: 12,
         })
       }
-
     }
     .height('100%')
     .width('100%')
@@ -114,17 +111,15 @@ struct Day02_01_BookShelf {
           promptAction.showDialog({
             title: "删除全部图书",
             message: "确定要删除全部的图书吗?",
-            buttons: [{
-              text: "取消", color: "#555"
-            },
-              {
-                text: "确认", color: "#000"
-              }]
+            buttons: [
+              { text: "取消", color: "#555" },
+              { text: "确认", color: "#000" }
+            ]
           }, (err, data) => {
-            console.log("data", JSON.stringify(data))
+            // console.log("data", JSON.stringify(data))
             if (data.index === 1) {
               this.books.forEach((item: Book) => {
-                requestABook(`https://hmajax.itheima.net/api/books/${item.id}`, http.RequestMethod.DELETE)
+                requestABook(`/${item.id}`, http.RequestMethod.DELETE)
               })
               this.books = []
             }
@@ -133,6 +128,7 @@ struct Day02_01_BookShelf {
 
       Text('我的书架')
         .fontSize(25)
+        .fontWeight(500)
 
       Image($r('app.media.ic_public_add'))
         .width(20)
@@ -163,12 +159,10 @@ struct Day02_01_BookShelf {
           promptAction.showDialog({
             title: "删除图书",
             message: `确认要删除${item.bookname}吗?`,
-            buttons: [{
-              text: "取消", color: "#555"
-            },
-              {
-                text: "确认", color: "#000"
-              }]
+            buttons: [
+              { text: "取消", color: "#555" },
+              { text: "确认", color: "#000" }
+            ]
           }, (err, data) => {
             console.log("data", JSON.stringify(data))
             if (data.index === 1) {
@@ -178,14 +172,15 @@ struct Day02_01_BookShelf {
               }, () => {
                 this.books.splice(this.books.findIndex(v => v.id === item.id), 1)
               })
-              requestABook(`https://hmajax.itheima.net/api/books/${item.id}`, http.RequestMethod.DELETE)
+
+              requestABook(`/${item.id}`, http.RequestMethod.DELETE)
                 .then(res => {
                   console.log("del", JSON.stringify(res.result))
                 })
-              requestABook("https://hmajax.itheima.net/api/books")
+              requestABook(`/?creator=${creator}`)
                 .then(res => {
-                  console.log("res", JSON.stringify(res.result))
-                  this.books = res.result["data"] as Book[]
+                  // console.log("res", JSON.stringify(res.result))
+                  this.books = [...res.result["data"] as Book[]]
                 })
             }
           })

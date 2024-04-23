@@ -5,16 +5,22 @@ import { http } from '@kit.NetworkKit'
 @Entry
 @Component
 struct BookShelf_Add {
+  // 书名
   @State bookname: string = ''
+  // 作者
   @State author: string = ''
+  // 出版社
   @State publisher: string = ''
+  // 书的id
   bookid: number = 0
+  // 节流阀, 防止重复提交 false表示没有提交任务, true表示正在提交
+  ispush: boolean = false
 
   aboutToAppear(): void {
     if (router.getParams()) {
       const id = router.getParams() as object
-      console.log("id", JSON.stringify(id))
-      requestABook(`https://hmajax.itheima.net/api/books/${id["id"]}`)
+      // console.log("id", JSON.stringify(id))
+      requestABook(`/${id["id"]}`)
         .then(res => {
           const book: Book = res.result["data"] as Book
           console.log("book", JSON.stringify(book))
@@ -76,6 +82,7 @@ struct BookShelf_Add {
           .type(ButtonType.Normal)
           .borderRadius(10)
           .onClick(async () => {
+            // 检验输入
             if (this.bookname && this.author && this.publisher) {
               const myboos: submissionFormat = {
                 bookname: this.bookname,
@@ -84,12 +91,17 @@ struct BookShelf_Add {
                 creator: creator
               }
 
-              if (router.getParams()) {
-                const res = await requestABook(`https://hmajax.itheima.net/api/books/${this.bookid}`, http.RequestMethod.PUT, myboos)
-                console.log("JSON1", JSON.stringify(res.result))
-              } else {
-                const res = await requestABook("https://hmajax.itheima.net/api/books", http.RequestMethod.POST, myboos)
-                console.log("JSON2", JSON.stringify(res.result))
+              if (!this.ispush) {
+                this.ispush = true
+                if (router.getParams()) {
+                  const res = await requestABook(`/${this.bookid}`, http.RequestMethod.PUT, myboos)
+                  this.ispush = false
+                  console.log("JSON1", JSON.stringify(res.result))
+                } else {
+                  const res = await requestABook("", http.RequestMethod.POST, myboos)
+                  this.ispush = false
+                  console.log("JSON2", JSON.stringify(res.result))
+                }
               }
 
               router.back({
