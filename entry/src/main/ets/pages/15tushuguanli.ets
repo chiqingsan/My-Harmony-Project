@@ -22,6 +22,7 @@ export const creator: string = 'chiqingsan'
 
 export function requestABook(url: string, method: http.RequestMethod = http.RequestMethod.GET, body?: submissionFormat | string) {
   const myhttp = http.createHttp()
+
   return myhttp.request(
     method === "GET" ? `${url}?creator=${creator}` : url,
     {
@@ -31,6 +32,8 @@ export function requestABook(url: string, method: http.RequestMethod = http.Requ
       expectDataType: http.HttpDataType.OBJECT
     }
   )
+
+
 }
 
 @Entry
@@ -64,6 +67,11 @@ struct Day02_01_BookShelf {
           .enableLoading(this.isLoading)
           .width(80)
           .margin(10)
+          .onDisAppear(() => {
+            promptAction.showToast({
+              message: "加载完成~"
+            })
+          })
         Text("Loading ")
           .fontSize(26)
           .fontWeight(700)
@@ -191,10 +199,20 @@ struct Day02_01_BookShelf {
 @Component
 struct bookItem {
   data: Partial<Book> = {}
+  @State imgpath: string | ResourceStr = $r('app.media.ic_public_cover')
+
+  aboutToAppear(): void {
+    const httpimg = http.createHttp()
+    httpimg.request("https://loremflickr.com/143/300/cat")
+      .then((res) => {
+        console.log("imgres", JSON.stringify(res.header))
+        this.imgpath = "https://loremflickr.com/" + res.header["location"]
+      })
+  }
 
   build() {
     Row({ space: 10 }) {
-      Image($r('app.media.ic_public_cover'))
+      Image(this.imgpath)
         .width(100)
         .aspectRatio(.7)
         .borderRadius(12)
