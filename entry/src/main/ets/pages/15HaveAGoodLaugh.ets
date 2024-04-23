@@ -17,11 +17,16 @@ async function myhttp(num: number) {
 @Component
 struct Day01_07_Jokes {
   @State jokes: string [] = []
-  jokeNum: number = 5
+  // 记录当前下啦刷新显示状态
   @State refreshing: boolean = false
+  // 记录搜索框的显示
   @State searchisshow: boolean = false
+  // 记录搜索框的内容
   @State searchvalue: string = ""
+  // 滚动条控制器
   listScroller: Scroller = new Scroller()
+  // 节流阀 false表示无任务 , true表示正在请求数据
+  isloading: boolean = false
 
   async aboutToAppear(): Promise<void> {
     this.jokes = await myhttp(10)
@@ -78,7 +83,11 @@ struct Day01_07_Jokes {
           .padding(10)
           .layoutWeight(1)
           .onReachEnd(async () => {
-            this.jokes.push(...await myhttp(10))
+            if (!this.isloading) {
+              this.isloading = true
+              this.jokes.push(...await myhttp(10))
+              this.isloading = false
+            }
           })
         }
 

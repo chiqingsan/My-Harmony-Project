@@ -1,6 +1,4 @@
 //食物信息
-import { cloudSync } from '@kit.CoreFileKit'
-import { b, c } from '../common/PublicClass'
 
 @Observed
 class foodInfo {
@@ -197,6 +195,7 @@ struct foods {
         Text("偏好度:")
           .fontSize(10)
         Slider({ value: this.item.degreeOfDeflection, min: 0, max: 20 })
+          .height(30)
           .onChange((val) => {
             this.item.degreeOfDeflection = val
             console.log(this.item.degreeOfDeflection.toString())
