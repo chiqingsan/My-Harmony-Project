@@ -9,6 +9,7 @@ class myFoods {
   }
 }
 
+
 @Entry
 @Component
 struct Index {
