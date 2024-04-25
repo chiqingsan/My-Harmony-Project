@@ -28,7 +28,7 @@ struct Index {
     new jumpToThePage("跳转到 数据持久化 案例", "pages/Page_PersistentStorage"),
     new jumpToThePage("跳转到 数据持久化2 案例", "pages/Page_chijiuhuatest2"),
     new jumpToThePage("跳转到 记账本 案例", "pages/Bill/BillIndexPage"),
-    new jumpToThePage("跳转到 测试 案例", "pages/Page_shebei"),
+    new jumpToThePage("跳转到 测试 案例", "pages/test"),
     new jumpToThePage("跳转到 作业 案例", "pages/MyCenterPage"),
     new jumpToThePage("跳转到 图书管理 案例", "pages/15tushuguanli"),
     new jumpToThePage("跳转到 每日一笑 案例", "pages/15HaveAGoodLaugh"),

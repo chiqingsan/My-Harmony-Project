@@ -18,10 +18,9 @@ struct a {
   @State c: number = 0
 
   aboutToAppear(): void {
-    myHttp('https://zhoushugang.gitee.io/fe2022/takeaway.json')
+    myHttp('http://192.168.67.19:3000/foods')
       .then((resolve) => {
-        const Data: object[] = JSON.parse(resolve.result.toString())
-        this.b = Data
+        this.b = JSON.parse(resolve.result as string)
         console.log(JSON.stringify(this.b))
       })
       .catch((err: Error) => {
@@ -31,20 +30,8 @@ struct a {
 
   build() {
     Column() {
-      ForEach(this.b, (item: object) => {
-        Column() {
-          Row() {
-            Text(item["name"])
-          }
 
-          ForEach(
-            item["foods"],
-            (food: string) => {
-              Text(food["name"])
-            }
-          )
-        }
-      })
+      Text(JSON.stringify(this.b))
     }
 
   }

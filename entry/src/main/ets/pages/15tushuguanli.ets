@@ -33,7 +33,6 @@ export function requestABook(parameter: string, method: http.RequestMethod = htt
     }
   )
 
-
 }
 
 @Entry
