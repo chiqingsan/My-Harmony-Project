@@ -32,6 +32,8 @@ struct Index {
     new jumpToThePage("跳转到 作业 案例", "pages/MyCenterPage"),
     new jumpToThePage("跳转到 图书管理 案例", "pages/15tushuguanli"),
     new jumpToThePage("跳转到 每日一笑 案例", "pages/15HaveAGoodLaugh"),
+    new jumpToThePage("跳转到 购物商城 案例", "pages/Page_16anli"),
+    new jumpToThePage("跳转到 文件上传 案例", "pages/Page_16Fileupload"),
   ]
 
   onPageShow(): void {
