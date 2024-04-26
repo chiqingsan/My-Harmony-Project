@@ -1,7 +1,5 @@
 import picker from '@ohos.file.picker';
-
 import fs from '@ohos.file.fs';
-
 import request from '@ohos.request';
 import http from '@ohos.net.http';
 
