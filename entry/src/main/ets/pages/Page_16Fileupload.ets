@@ -3,6 +3,9 @@ import fs from '@ohos.file.fs';
 import request from '@ohos.request';
 import http from '@ohos.net.http';
 
+
+const mydate = new Date()
+mydate.getTime()
 // 定义类型
 interface UploadResponse {
   body: string
